@@ -11,21 +11,18 @@ var path = __webpack_require__(/*! path */ "path");
 var spawn = (__webpack_require__(/*! child_process */ "child_process").spawn);
 var debug = __webpack_require__(/*! debug */ "./node_modules/electron-squirrel-startup/node_modules/debug/src/index.js")('electron-squirrel-startup');
 var app = (__webpack_require__(/*! electron */ "electron").app);
-
-var run = function(args, done) {
+var run = function (args, done) {
   var updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
   debug('Spawning `%s` with args `%s`', updateExe, args);
   spawn(updateExe, args, {
     detached: true
   }).on('close', done);
 };
-
-var check = function() {
+var check = function () {
   if (process.platform === 'win32') {
     var cmd = process.argv[1];
     debug('processing squirrel command `%s`', cmd);
     var target = path.basename(process.execPath);
-
     if (cmd === '--squirrel-install' || cmd === '--squirrel-updated') {
       run(['--createShortcut=' + target + ''], app.quit);
       return true;
@@ -41,9 +38,7 @@ var check = function() {
   }
   return false;
 };
-
 module.exports = check();
-
 
 /***/ }),
 
@@ -65,23 +60,13 @@ exports.formatArgs = formatArgs;
 exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
+exports.storage = 'undefined' != typeof chrome && 'undefined' != typeof chrome.storage ? chrome.storage.local : localstorage();
 
 /**
  * Colors.
  */
 
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
+exports.colors = ['lightseagreen', 'forestgreen', 'goldenrod', 'dodgerblue', 'darkorchid', 'crimson'];
 
 /**
  * Currently only WebKit-based Web Inspectors, Firefox >= v31,
@@ -101,28 +86,27 @@ function useColors() {
 
   // is webkit? http://stackoverflow.com/a/16459606/376773
   // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
-    // double check webkit in userAgent just in case we are in a worker
-    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
+  return typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance ||
+  // is firebug? http://stackoverflow.com/a/398120/376773
+  typeof window !== 'undefined' && window.console && (window.console.firebug || window.console.exception && window.console.table) ||
+  // is firefox >= v31?
+  // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+  typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31 ||
+  // double check webkit in userAgent just in case we are in a worker
+  typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/);
 }
 
 /**
  * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
  */
 
-exports.formatters.j = function(v) {
+exports.formatters.j = function (v) {
   try {
     return JSON.stringify(v);
   } catch (err) {
     return '[UnexpectedJSONParseError]: ' + err.message;
   }
 };
-
 
 /**
  * Colorize log arguments if enabled.
@@ -132,25 +116,17 @@ exports.formatters.j = function(v) {
 
 function formatArgs(args) {
   var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
+  args[0] = (useColors ? '%c' : '') + this.namespace + (useColors ? ' %c' : ' ') + args[0] + (useColors ? '%c ' : ' ') + '+' + exports.humanize(this.diff);
   if (!useColors) return;
-
   var c = 'color: ' + this.color;
-  args.splice(1, 0, c, 'color: inherit')
+  args.splice(1, 0, c, 'color: inherit');
 
   // the final "%c" is somewhat tricky, because there could be other
   // arguments passed either before or after the %c, so we need to
   // figure out the correct index to insert the CSS into
   var index = 0;
   var lastC = 0;
-  args[0].replace(/%[a-zA-Z%]/g, function(match) {
+  args[0].replace(/%[a-zA-Z%]/g, function (match) {
     if ('%%' === match) return;
     index++;
     if ('%c' === match) {
@@ -159,7 +135,6 @@ function formatArgs(args) {
       lastC = index;
     }
   });
-
   args.splice(lastC, 0, c);
 }
 
@@ -173,9 +148,7 @@ function formatArgs(args) {
 function log() {
   // this hackery is required for IE8/9, where
   // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
+  return 'object' === typeof console && console.log && Function.prototype.apply.call(console.log, console, arguments);
 }
 
 /**
@@ -192,7 +165,7 @@ function save(namespaces) {
     } else {
       exports.storage.debug = namespaces;
     }
-  } catch(e) {}
+  } catch (e) {}
 }
 
 /**
@@ -206,13 +179,12 @@ function load() {
   var r;
   try {
     r = exports.storage.debug;
-  } catch(e) {}
+  } catch (e) {}
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
   if (!r && typeof process !== 'undefined' && 'env' in process) {
     r = process.env.DEBUG;
   }
-
   return r;
 }
 
@@ -239,7 +211,6 @@ function localstorage() {
   } catch (e) {}
 }
 
-
 /***/ }),
 
 /***/ "./node_modules/electron-squirrel-startup/node_modules/debug/src/debug.js":
@@ -247,7 +218,6 @@ function localstorage() {
   !*** ./node_modules/electron-squirrel-startup/node_modules/debug/src/debug.js ***!
   \********************************************************************************/
 /***/ ((module, exports, __webpack_require__) => {
-
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -292,13 +262,12 @@ var prevTime;
  */
 
 function selectColor(namespace) {
-  var hash = 0, i;
-
+  var hash = 0,
+    i;
   for (i in namespace) {
-    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash = (hash << 5) - hash + namespace.charCodeAt(i);
     hash |= 0; // Convert to 32bit integer
   }
-
   return exports.colors[Math.abs(hash) % exports.colors.length];
 }
 
@@ -311,11 +280,9 @@ function selectColor(namespace) {
  */
 
 function createDebug(namespace) {
-
   function debug() {
     // disabled?
     if (!debug.enabled) return;
-
     var self = debug;
 
     // set `diff` timestamp
@@ -331,9 +298,7 @@ function createDebug(namespace) {
     for (var i = 0; i < args.length; i++) {
       args[i] = arguments[i];
     }
-
     args[0] = exports.coerce(args[0]);
-
     if ('string' !== typeof args[0]) {
       // anything else let's inspect with %O
       args.unshift('%O');
@@ -341,7 +306,7 @@ function createDebug(namespace) {
 
     // apply any `formatters` transformations
     var index = 0;
-    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function (match, format) {
       // if we encounter an escaped % then don't increase the array index
       if (match === '%%') return match;
       index++;
@@ -359,11 +324,9 @@ function createDebug(namespace) {
 
     // apply env-specific formatting (colors, etc.)
     exports.formatArgs.call(self, args);
-
     var logFn = debug.log || exports.log || console.log.bind(console);
     logFn.apply(self, args);
   }
-
   debug.namespace = namespace;
   debug.enabled = exports.enabled(namespace);
   debug.useColors = exports.useColors();
@@ -373,7 +336,6 @@ function createDebug(namespace) {
   if ('function' === typeof exports.init) {
     exports.init(debug);
   }
-
   return debug;
 }
 
@@ -387,13 +349,10 @@ function createDebug(namespace) {
 
 function enable(namespaces) {
   exports.save(namespaces);
-
   exports.names = [];
   exports.skips = [];
-
   var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
   var len = split.length;
-
   for (var i = 0; i < len; i++) {
     if (!split[i]) continue; // ignore empty strings
     namespaces = split[i].replace(/\*/g, '.*?');
@@ -451,7 +410,6 @@ function coerce(val) {
   return val;
 }
 
-
 /***/ }),
 
 /***/ "./node_modules/electron-squirrel-startup/node_modules/debug/src/index.js":
@@ -470,7 +428,6 @@ if (typeof process !== 'undefined' && process.type === 'renderer') {
 } else {
   module.exports = __webpack_require__(/*! ./node.js */ "./node_modules/electron-squirrel-startup/node_modules/debug/src/node.js");
 }
-
 
 /***/ }),
 
@@ -517,18 +474,13 @@ exports.inspectOpts = Object.keys(process.env).filter(function (key) {
   return /^debug_/i.test(key);
 }).reduce(function (obj, key) {
   // camel-case
-  var prop = key
-    .substring(6)
-    .toLowerCase()
-    .replace(/_([a-z])/g, function (_, k) { return k.toUpperCase() });
+  var prop = key.substring(6).toLowerCase().replace(/_([a-z])/g, function (_, k) {
+    return k.toUpperCase();
+  });
 
   // coerce string value into JS value
   var val = process.env[key];
-  if (/^(yes|on|true|enabled)$/i.test(val)) val = true;
-  else if (/^(no|off|false|disabled)$/i.test(val)) val = false;
-  else if (val === 'null') val = null;
-  else val = Number(val);
-
+  if (/^(yes|on|true|enabled)$/i.test(val)) val = true;else if (/^(no|off|false|disabled)$/i.test(val)) val = false;else if (val === 'null') val = null;else val = Number(val);
   obj[prop] = val;
   return obj;
 }, {});
@@ -541,42 +493,35 @@ exports.inspectOpts = Object.keys(process.env).filter(function (key) {
  */
 
 var fd = parseInt(process.env.DEBUG_FD, 10) || 2;
-
 if (1 !== fd && 2 !== fd) {
-  util.deprecate(function(){}, 'except for stderr(2) and stdout(1), any other usage of DEBUG_FD is deprecated. Override debug.log if you want to use a different log function (https://git.io/debug_fd)')()
+  util.deprecate(function () {}, 'except for stderr(2) and stdout(1), any other usage of DEBUG_FD is deprecated. Override debug.log if you want to use a different log function (https://git.io/debug_fd)')();
 }
-
-var stream = 1 === fd ? process.stdout :
-             2 === fd ? process.stderr :
-             createWritableStdioStream(fd);
+var stream = 1 === fd ? process.stdout : 2 === fd ? process.stderr : createWritableStdioStream(fd);
 
 /**
  * Is stdout a TTY? Colored output is enabled when `true`.
  */
 
 function useColors() {
-  return 'colors' in exports.inspectOpts
-    ? Boolean(exports.inspectOpts.colors)
-    : tty.isatty(fd);
+  return 'colors' in exports.inspectOpts ? Boolean(exports.inspectOpts.colors) : tty.isatty(fd);
 }
 
 /**
  * Map %o to `util.inspect()`, all on a single line.
  */
 
-exports.formatters.o = function(v) {
+exports.formatters.o = function (v) {
   this.inspectOpts.colors = this.useColors;
-  return util.inspect(v, this.inspectOpts)
-    .split('\n').map(function(str) {
-      return str.trim()
-    }).join(' ');
+  return util.inspect(v, this.inspectOpts).split('\n').map(function (str) {
+    return str.trim();
+  }).join(' ');
 };
 
 /**
  * Map %o to `util.inspect()`, allowing multiple lines if needed.
  */
 
-exports.formatters.O = function(v) {
+exports.formatters.O = function (v) {
   this.inspectOpts.colors = this.useColors;
   return util.inspect(v, this.inspectOpts);
 };
@@ -590,16 +535,13 @@ exports.formatters.O = function(v) {
 function formatArgs(args) {
   var name = this.namespace;
   var useColors = this.useColors;
-
   if (useColors) {
     var c = this.color;
     var prefix = '  \u001b[3' + c + ';1m' + name + ' ' + '\u001b[0m';
-
     args[0] = prefix + args[0].split('\n').join('\n' + prefix);
     args.push('\u001b[3' + c + 'm+' + exports.humanize(this.diff) + '\u001b[0m');
   } else {
-    args[0] = new Date().toUTCString()
-      + ' ' + name + ' ' + args[0];
+    args[0] = new Date().toUTCString() + ' ' + name + ' ' + args[0];
   }
 }
 
@@ -646,7 +588,7 @@ function load() {
  * relies on the undocumented `tty_wrap.guessHandleType()` which is also lame.
  */
 
-function createWritableStdioStream (fd) {
+function createWritableStdioStream(fd) {
   var stream;
   var tty_wrap = process.binding('tty_wrap');
 
@@ -663,13 +605,13 @@ function createWritableStdioStream (fd) {
         stream._handle.unref();
       }
       break;
-
     case 'FILE':
       var fs = __webpack_require__(/*! fs */ "fs");
-      stream = new fs.SyncWriteStream(fd, { autoClose: false });
+      stream = new fs.SyncWriteStream(fd, {
+        autoClose: false
+      });
       stream._type = 'fs';
       break;
-
     case 'PIPE':
     case 'TCP':
       var net = __webpack_require__(/*! net */ "net");
@@ -693,7 +635,6 @@ function createWritableStdioStream (fd) {
         stream._handle.unref();
       }
       break;
-
     default:
       // Probably an error on in uv_guess_handle()
       throw new Error('Implement me. Unknown stream file type!');
@@ -701,9 +642,7 @@ function createWritableStdioStream (fd) {
 
   // For supporting legacy API we put the FD here.
   stream.fd = fd;
-
   stream._isStdio = true;
-
   return stream;
 }
 
@@ -714,9 +653,8 @@ function createWritableStdioStream (fd) {
  * differently for a particular `debug` instance.
  */
 
-function init (debug) {
+function init(debug) {
   debug.inspectOpts = {};
-
   var keys = Object.keys(exports.inspectOpts);
   for (var i = 0; i < keys.length; i++) {
     debug.inspectOpts[keys[i]] = exports.inspectOpts[keys[i]];
@@ -728,7 +666,6 @@ function init (debug) {
  */
 
 exports.enable(load());
-
 
 /***/ }),
 
@@ -762,7 +699,7 @@ var y = d * 365.25;
  * @api public
  */
 
-module.exports = function(val, options) {
+module.exports = function (val, options) {
   options = options || {};
   var type = typeof val;
   if (type === 'string' && val.length > 0) {
@@ -770,10 +707,7 @@ module.exports = function(val, options) {
   } else if (type === 'number' && isNaN(val) === false) {
     return options.long ? fmtLong(val) : fmtShort(val);
   }
-  throw new Error(
-    'val is not a non-empty string or a valid number. val=' +
-      JSON.stringify(val)
-  );
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val));
 };
 
 /**
@@ -789,9 +723,7 @@ function parse(str) {
   if (str.length > 100) {
     return;
   }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
-    str
-  );
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
   if (!match) {
     return;
   }
@@ -870,11 +802,7 @@ function fmtShort(ms) {
  */
 
 function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms';
+  return plural(ms, d, 'day') || plural(ms, h, 'hour') || plural(ms, m, 'minute') || plural(ms, s, 'second') || ms + ' ms';
 }
 
 /**
@@ -890,7 +818,6 @@ function plural(ms, n, name) {
   }
   return Math.ceil(ms / n) + ' ' + name + 's';
 }
-
 
 /***/ }),
 
@@ -1009,22 +936,24 @@ var __webpack_exports__ = {};
 /*!*********************!*\
   !*** ./src/main.js ***!
   \*********************/
-const { app, BrowserWindow } = __webpack_require__(/*! electron */ "electron");
+const {
+  app,
+  BrowserWindow
+} = __webpack_require__(/*! electron */ "electron");
 const path = __webpack_require__(/*! path */ "path");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (__webpack_require__(/*! electron-squirrel-startup */ "./node_modules/electron-squirrel-startup/index.js")) {
   app.quit();
 }
-
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: '/home/nule/Workspace/personal/litnotes/.webpack/renderer/main_window/preload.js',
-    },
+      preload: '/home/nule/Workspace/personal/litnotes/.webpack/renderer/main_window/preload.js'
+    }
   });
 
   // and load the index.html of the app.
@@ -1047,7 +976,6 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -1058,7 +986,6 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
-
 })();
 
 module.exports = __webpack_exports__;

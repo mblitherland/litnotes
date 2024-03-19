@@ -3,16 +3,9 @@ import React from 'react';
 import { styled, useTheme } from '@mui/material';
 import { Drawer, IconButton, Typography } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import DrawerHeader from './drawer-header.jsx';
 
 const drawerWidth = 240;
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
-}));
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -54,6 +47,9 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, ...props }) 
         onClose={onDrawerClose}
       >
         <DrawerHeader>
+          <Typography variant="big" noWrap component="div">
+            Workspace Name
+          </Typography>
           <IconButton onClick={onDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>

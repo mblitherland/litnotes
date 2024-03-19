@@ -50,27 +50,19 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   }),
 );
 
-const WorkspaceDrawer = ({ ...props }) => {
+const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, ...props }) => {
   const theme = useTheme();
-  const [open, setOpen] = useState(true);
-
-  const handleCloseDrawer = () => {
-    setOpen(false);
-  }
-  const handleOpenDrawer = () => {
-    setOpen(true);
-  };
 
   return (
-    <React.Fragment>
-      <LitAppBar position="fixed" open={open}>
+    <>
+      <LitAppBar position="fixed" open={drawerOpen}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleOpenDrawer}
+            onClick={onDrawerOpen}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
           >
             <Menu />
           </IconButton>
@@ -91,11 +83,11 @@ const WorkspaceDrawer = ({ ...props }) => {
         variant="persistent"
         { ...props }
         anchor="left"
-        open={open}
-        onClose={handleCloseDrawer}
+        open={drawerOpen}
+        onClose={onDrawerClose}
       >
         <DrawerHeader>
-          <IconButton onClick={handleCloseDrawer}>
+          <IconButton onClick={onDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </DrawerHeader>
@@ -104,13 +96,13 @@ const WorkspaceDrawer = ({ ...props }) => {
           Drawer!
         </Typography>
       </Drawer>
-      <Main open={open}>
+      <Main open={drawerOpen}>
         <DrawerHeader />
         <Typography paragraph>
           This is just a plain old paragraph.
         </Typography>
       </Main>
-    </React.Fragment>
+    </>
   );
 }
 

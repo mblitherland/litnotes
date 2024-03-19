@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { styled, useTheme } from '@mui/material';
-import { AppBar, Drawer, IconButton, Toolbar, Typography } from '@mui/material';
-import { ChevronLeft, ChevronRight, Menu } from '@mui/icons-material';
+import { Drawer, IconButton, Typography } from '@mui/material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -12,23 +12,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
   justifyContent: 'flex-end',
-}));
-
-const LitAppBar = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
-    transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
 }));
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -55,22 +38,6 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, ...props }) 
 
   return (
     <>
-      <LitAppBar position="fixed" open={drawerOpen}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={onDrawerOpen}
-            edge="start"
-            sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}
-          >
-            <Menu />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Litnotes
-          </Typography>
-        </Toolbar>
-      </LitAppBar>
       <Drawer
         sx={{
           width: drawerWidth,

@@ -1,7 +1,14 @@
-import * as React from 'react';
+import React from 'react';
+
+import { Box } from '@mui/material';
+import WorkspaceDrawer from './drawer.jsx';
 
 export default function App() {
   return (
-    <h2>Welcome to Litnotes</h2>
+    <Box
+      sx={{ display: 'flex' }}
+    >
+      <WorkspaceDrawer />
+    </Box>
   );
 }

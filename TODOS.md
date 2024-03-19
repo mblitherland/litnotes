@@ -18,9 +18,15 @@ A list of all the things to do for Litnotes
     - On application open load preferences if they exist
     - Save window size (location?) on close
 
+Future things to consider
+- Implement content security: https://www.electronjs.org/docs/latest/tutorial/security#1-only-load-secure-content
+- Themes (need a dark mode)
+- VIM keybindings, absolutely required
+
 ## Todoings
 
-Working on #1
+Working on all the skeleton stuff so I can start adding features.
+- The first pass at the drawer functionality isn't ideal from a react component standpoint. I'd like to break those pieces up more.
 
 ## Todones
 

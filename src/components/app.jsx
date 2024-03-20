@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box } from '@mui/material';
 import WorkspaceBar from './workspace-bar.jsx';
-import WorkspaceDrawer from './drawer.jsx';
+import WorkspaceDrawer from './workspace-drawer.jsx';
 import WorkspaceMain from './workspace-main.jsx';
 
 const drawerWidth = 240;

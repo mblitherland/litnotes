@@ -21,6 +21,8 @@ A list of all the things to do for Litnotes
 Future things to consider
 - Implement content security: https://www.electronjs.org/docs/latest/tutorial/security#1-only-load-secure-content
 - Themes (need a dark mode)
+    - There a MUI theme builder here: https://zenoo.github.io/mui-theme-creator/
+    - Currently in theme.jsx you can change the mode from 'dark' to 'light'
 - VIM keybindings, absolutely required
 
 ## Todoings

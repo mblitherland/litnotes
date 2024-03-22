@@ -1,16 +1,17 @@
 import { createTheme } from '@mui/material/styles';
 
-// Mode can just be toggled to 'light' to change it to light mode
-var theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#3f51b5',
+const getTheme = (name) => {
+  return createTheme({
+    palette: {
+      mode: name,
+      primary: {
+        main: '#3f51b5',
+      },
+      secondary: {
+        main: '#f50057',
+      },
     },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-});
+  });
+};
 
-export default theme;
+export default getTheme;

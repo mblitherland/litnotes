@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Box } from '@mui/material';
+import WorkspaceBar from './workspace-bar.jsx';
 import WorkspaceDrawer from './drawer.jsx';
 
 export default function App() {
@@ -18,6 +19,9 @@ export default function App() {
     <Box
       sx={{ display: 'flex' }}
     >
+      <WorkspaceBar
+        drawerOpen={drawerOpen}
+        onDrawerOpen={handleDrawerOpen} />
       <WorkspaceDrawer
         drawerOpen={drawerOpen}
         onDrawerClose={handleDrawerClose}

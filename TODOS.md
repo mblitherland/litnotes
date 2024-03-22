@@ -30,7 +30,6 @@ Future things to consider
         - and can we make that part of the configuration we want to save?
 - VIM keybindings, absolutely required
 - Make the drawer resizeable by dragging...
-- debounce on saving window position/size
 
 ## Todoings
 

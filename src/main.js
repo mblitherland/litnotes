@@ -1,20 +1,51 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
+import { app, BrowserWindow } from 'electron';
+import Store from './utilities/settings-store.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const store = new Store({
+  configName: 'user-settings',
+  defaults: {
+    theme: 'light',
+    windowBounds: {
+      width: 1280,
+      height: 840
+    },
+    windowPosition: {
+      winX: 100,
+      winY: 100
+    },
+    workSpaces: []
+  }
+});
+
 const createWindow = () => {
+  const { width, height } = store.get('windowBounds');
+  const { winX, winY } = store.get('windowPosition');
+
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 960,
+    width: width,
+    height: height,
+    x: winX,
+    y: winY,
     webPreferences: {
       preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
     },
   });
+
+  mainWindow.on('move', () => {
+    const [ winX, winY ] = mainWindow.getPosition();
+    store.set('windowPosition', { winX, winY });
+  });
+
+  mainWindow.on('resize', () => {
+    const { width, height } = mainWindow.getBounds();
+    store.set('windowBounds', { width, height });
+  })
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);

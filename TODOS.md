@@ -6,7 +6,7 @@ A list of all the things to do for Litnotes
 
 1) 2024-03-15 Save load modify configuration file
     - Create a configuration model
-        - ID (random UUID)
+        - ID? (random UUID)
         - Window size (location?)
         - Most recent workspace (id)
         - theme?
@@ -30,6 +30,7 @@ Future things to consider
         - and can we make that part of the configuration we want to save?
 - VIM keybindings, absolutely required
 - Make the drawer resizeable by dragging...
+- debounce on saving window position/size
 
 ## Todoings
 

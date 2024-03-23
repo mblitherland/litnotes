@@ -5,8 +5,8 @@ import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import { Menu } from '@mui/icons-material';
 
 const StyledWorkspaceBar = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth',
-})(({ theme, drawerOpen, drawerWidth }) => ({
+  shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth'
+ })(({ theme, drawerOpen, drawerWidth }) => ({
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -21,14 +21,15 @@ const StyledWorkspaceBar = styled(AppBar, {
   }),
 }));
 
-const WorkspaceBar = ({ drawerOpen, onDrawerOpen }) => {
+const WorkspaceBar = ({ drawerOpen, onDrawerOpen, drawerWidth }) => {
 
   return (
     <>
       <StyledWorkspaceBar
-        drawerWidth={240}
+        drawerWidth={drawerWidth}
         drawerOpen={drawerOpen}
-        position="fixed">
+        position="fixed"
+      >
         <Toolbar>
           <IconButton
             color="inherit"

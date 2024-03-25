@@ -1,37 +1,35 @@
 import React from 'react';
 
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 
+const SettingsForm = ({ settings }) => {
+  const [ themeName, setThemeName ] = React.useState(settings['themeName']);
 
-const SettingsForm = ({handleSettingsClose}) => {
-
-  const handleSave = () => {
-    handleSettingsClose();
+  const handleThemeChange = (event) => {
+    settings['themeName'] = event.target.value;
+    setThemeName(event.target.value);
   }
 
   return (
     <>
-      <AppBar sx={{ position: 'relative' }}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleSettingsClose}
-            aria-label="close"
-          >
-            <CloseIcon />
-          </IconButton>
-          <Typography sx={{ ml: 2, flex: 1 }} varient="h6" component="div">
-            Settings
-          </Typography>
-          <Button autoFocus color="inherit" onClick={handleSave}>
-            Save
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <FormControl sx={{ m: 2, minWidth: 120 }}>
+        <InputLabel id="settings-select-theme-label">Theme</InputLabel>
+        <Select
+          labelId="settings-select-theme-label"
+          id="settings-select-theme"
+          value={themeName}
+          label="Theme"
+          onChange={handleThemeChange}
+        >
+          <MenuItem value="dark">Dark</MenuItem>
+          <MenuItem value="light">Light</MenuItem>
+        </Select>
+        <FormHelperText id="settings-select-theme-helper-text">
+          This change requires a restart.
+        </FormHelperText>
+      </FormControl>
     </>
-  )
+  );
 };
 
 export default SettingsForm;

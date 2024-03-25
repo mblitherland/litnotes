@@ -8,6 +8,7 @@ A list of all the things to do for Litnotes
     - Create a configuration model
         - Window size (location?)
         - Most recent workspace (id)
+        - theme?
         - Workspaces (array)
             - id
             - name
@@ -23,6 +24,9 @@ Future things to consider
 - Themes (need a dark mode)
     - There a MUI theme builder here: https://zenoo.github.io/mui-theme-creator/
     - Currently in theme.jsx you can change the mode from 'dark' to 'light'
+    - Can we detect from electron if the OS is using light/dark mode?
+    - How do we tell the theme provider to switch themes while running?
+        - and can we make that part of the configuration we want to save?
 - VIM keybindings, absolutely required
 
 ## Todoings

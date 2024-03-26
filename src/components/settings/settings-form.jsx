@@ -2,12 +2,13 @@ import React from 'react';
 
 import { FormControl, FormHelperText, InputLabel, MenuItem, Select } from '@mui/material';
 
-const SettingsForm = ({ settings }) => {
+const SettingsForm = ({ settings, setSettings }) => {
   const [ themeName, setThemeName ] = React.useState(settings['themeName']);
 
   const handleThemeChange = (event) => {
     settings['themeName'] = event.target.value;
     setThemeName(event.target.value);
+    setSettings(settings);
   }
 
   return (

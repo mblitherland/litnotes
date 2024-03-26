@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { useTheme } from '@mui/material';
-import { Drawer, IconButton, Typography } from '@mui/material';
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { Box, Divider, Drawer, IconButton, Typography } from '@mui/material';
+import { ChevronLeft, ChevronRight, Settings } from '@mui/icons-material';
 import DrawerHeader from './drawer-header.jsx';
 
 const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, ...props }) => {
@@ -26,17 +26,26 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
         onClose={onDrawerClose}
       >
         <DrawerHeader>
-          <Typography variant="big" noWrap component="div">
-            Workspace Name
-          </Typography>
+          <IconButton>
+            <Settings />
+          </IconButton>
           <IconButton onClick={onDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </DrawerHeader>
-
-        <Typography variant="h6" noWrap component="div">
-          Drawer!
-        </Typography>
+        <Divider />
+        <Box
+          sx={{
+            padding: 1,
+          }}
+        >
+          <Typography variant="big" noWrap component="div">
+            No Workspace Selected
+          </Typography>
+          <Typography paragraph>
+            Please configure a workspace using the settings button above.
+          </Typography>
+        </Box>
       </Drawer>
     </>
   );

@@ -29,6 +29,7 @@ const WorkspaceBar = ({ drawerOpen, onDrawerOpen, drawerWidth }) => {
         drawerWidth={drawerWidth}
         drawerOpen={drawerOpen}
         position="fixed"
+        color="inherit"
       >
         <Toolbar>
           <IconButton

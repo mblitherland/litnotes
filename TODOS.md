@@ -6,11 +6,12 @@ A list of all the things to do for Litnotes
 
 1) 2024-03-15 Save load modify configuration file
     - Create a configuration model
+        - ID (random UUID)
         - Window size (location?)
         - Most recent workspace (id)
         - theme?
         - Workspaces (array)
-            - id
+            - id (timestamp)
             - name
             - location (file system)
     - Put a "settings" "gear" button on the opening page to manually open and close settings dialogue
@@ -28,6 +29,7 @@ Future things to consider
     - How do we tell the theme provider to switch themes while running?
         - and can we make that part of the configuration we want to save?
 - VIM keybindings, absolutely required
+- Make the drawer resizeable by dragging...
 
 ## Todoings
 

@@ -5,7 +5,7 @@ import WorkspaceBar from './workspace-bar.jsx';
 import WorkspaceDrawer from './workspace-drawer.jsx';
 import WorkspaceMain from './workspace-main.jsx';
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 export default function App() {
 

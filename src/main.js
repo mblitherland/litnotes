@@ -1,4 +1,4 @@
-import { app, ipcMain, BrowserWindow } from 'electron';
+import { app, dialog, ipcMain, BrowserWindow } from 'electron';
 import Store from './utilities/settings-store.js';
 import { debounce } from './utilities/common.js';
 
@@ -11,6 +11,10 @@ const store = new Store({
   configName: 'user-settings',
   defaults: {
     themeName: 'light',
+    drawer: {
+      open: true,
+      width: 300
+    },
     windowBounds: {
       width: 1280,
       height: 840
@@ -22,6 +26,14 @@ const store = new Store({
     workSpaces: []
   }
 });
+
+const handleBrowseDirectory = async () => {
+  // TODO: Should really catch exceptions and handle them here to the front-end
+  // TODO: The showOpenDialog REALLY needs a reference to mainWindow
+  const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
+  console.log(">>> Browse directory found: '"+JSON.stringify(result)+"'");
+  return result;
+}
 
 const handleGetSetting = (_, key) => {
   return store.get(key);
@@ -67,6 +79,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  ipcMain.handle('file:browseDirectory', handleBrowseDirectory);
   ipcMain.handle('store:getSetting', handleGetSetting);
   ipcMain.handle('store:setSetting', handleSetSetting);
   createWindow();

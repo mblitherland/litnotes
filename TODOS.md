@@ -39,5 +39,5 @@ Working on all the skeleton stuff so I can start adding features.
         - Workspaces (array)
             - id (timestamp)
             - name
-            - location (file system)
+            - directory (file system)
             - open files (relative to location, array)

@@ -1,19 +1,14 @@
 import React from 'react';
 
-import { AppBar, Button, IconButton, Toolbar, Typography } from '@mui/material';
+import { AppBar, IconButton, Toolbar, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SettingsForm from './settings-form.jsx';
 
 
-const SettingsModal = ({settings, setSettings, saveSettings, handleSettingsClose, modified, setModified}) => {
-
-  const handleSave = () => {
-    saveSettings();
-    handleSettingsClose();
-  };
+const SettingsModal = ({settings, setSettings, saveSettings, handleSettingsClose }) => {
 
   const handleSetSettings = (newSettings) => {
-    setModified(true);
+    saveSettings();
     setSettings(newSettings);
   };
 
@@ -34,12 +29,6 @@ const SettingsModal = ({settings, setSettings, saveSettings, handleSettingsClose
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Settings
           </Typography>
-          <Typography sx={{ display: modified ? 'block' : 'none' }}>
-            (not saved)
-          </Typography>
-          <Button autoFocus color="inherit" onClick={handleSave}>
-            Save
-          </Button>
         </Toolbar>
       </AppBar>
       <SettingsForm settings={settings} setSettings={handleSetSettings} />

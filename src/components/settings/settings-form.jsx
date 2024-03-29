@@ -9,7 +9,13 @@ const SettingsForm = ({ settings, setSettings }) => {
   const handleAddWorkSpace = async () => {
     const result = await window.electronAPI.browseDirectory();
     console.log("got result: "+JSON.stringify(result));
-    // TODO: Actually persist new workspace
+    const workSpaceId = await window.electronAPI.generateUUID();
+    settings['workSpaces'][workSpaceId] =  {
+      name: result['name'],
+      directory: result['dir']
+    };
+    console.log("workspace settings: "+JSON.stringify(settings));
+    setSettings(settings);
   }
 
   const handleThemeChange = (event) => {

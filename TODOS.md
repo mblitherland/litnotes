@@ -40,3 +40,4 @@ Working on all the skeleton stuff so I can start adding features.
             - id (timestamp)
             - name
             - location (file system)
+            - open files (relative to location, array)

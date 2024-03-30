@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, ipcMain, BrowserWindow } from 'electron';
 import Store from './utilities/settings-store.js';
 import { debounce } from './utilities/common.js';
 
@@ -10,7 +10,7 @@ if (require('electron-squirrel-startup')) {
 const store = new Store({
   configName: 'user-settings',
   defaults: {
-    theme: 'light',
+    theme: 'dark',
     windowBounds: {
       width: 1280,
       height: 840
@@ -22,6 +22,10 @@ const store = new Store({
     workSpaces: []
   }
 });
+
+const handleGetSetting = (key) => {
+  return store.get(key);
+}
 
 const createWindow = () => {
   const { width, height } = store.get('windowBounds');
@@ -46,7 +50,7 @@ const createWindow = () => {
   mainWindow.on('resize', () => {
     const { width, height } = mainWindow.getBounds();
     debounce(store.set('windowBounds', { width, height }));
-  })
+  });
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
@@ -58,7 +62,10 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  ipcMain.handle('store:getSetting', handleGetSetting);
+  createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

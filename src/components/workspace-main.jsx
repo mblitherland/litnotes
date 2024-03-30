@@ -35,6 +35,9 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth }) => {
         <Typography paragraph>
           This is just a plain old paragraph.
         </Typography>
+        <Typography fontSize={64} color="grey">
+          This is a fancy paragraph.
+        </Typography>
       </StyledMain>
     </>
   );

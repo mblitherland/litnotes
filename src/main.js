@@ -1,5 +1,6 @@
 import { app, BrowserWindow } from 'electron';
 import Store from './utilities/settings-store.js';
+import { debounce } from './utilities/common.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -39,12 +40,12 @@ const createWindow = () => {
 
   mainWindow.on('move', () => {
     const [ winX, winY ] = mainWindow.getPosition();
-    store.set('windowPosition', { winX, winY });
+    debounce(store.set('windowPosition', { winX, winY }));
   });
 
   mainWindow.on('resize', () => {
     const { width, height } = mainWindow.getBounds();
-    store.set('windowBounds', { width, height });
+    debounce(store.set('windowBounds', { width, height }));
   })
 
   // and load the index.html of the app.

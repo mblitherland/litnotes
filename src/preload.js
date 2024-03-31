@@ -3,7 +3,6 @@
 
 import { contextBridge, ipcRenderer } from 'electron/renderer';
 
-console.log("Setting up IPC");
 contextBridge.exposeInMainWorld('electronAPI', {
-  getSetting: () => ipcRenderer.invoke('store:getSetting')
+  getSetting: (key) => ipcRenderer.invoke('store:getSetting', key)
 });

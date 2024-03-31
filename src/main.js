@@ -10,7 +10,7 @@ if (require('electron-squirrel-startup')) {
 const store = new Store({
   configName: 'user-settings',
   defaults: {
-    theme: 'dark',
+    theme: 'light',
     windowBounds: {
       width: 1280,
       height: 840
@@ -23,7 +23,7 @@ const store = new Store({
   }
 });
 
-const handleGetSetting = (key) => {
+const handleGetSetting = (event, key) => {
   return store.get(key);
 }
 

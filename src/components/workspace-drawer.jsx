@@ -1,12 +1,22 @@
 import React from 'react';
 
 import { useTheme } from '@mui/material';
-import { Box, Divider, Drawer, IconButton, Typography } from '@mui/material';
+import { Box, Button, Card, Dialog, Divider, Drawer, IconButton, Typography } from '@mui/material';
 import { ChevronLeft, ChevronRight, Settings } from '@mui/icons-material';
 import DrawerHeader from './drawer-header.jsx';
 
 const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, ...props }) => {
   const theme = useTheme();
+
+  const [ settingsOpen, setSettingsOpen ] = React.useState(false);
+
+  const handleSettingsOpen = () => {
+    setSettingsOpen(true);
+  }
+
+  const handleSettingsClose = () => {
+    setSettingsOpen(false);
+  }
 
   return (
     <>
@@ -26,7 +36,7 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
         onClose={onDrawerClose}
       >
         <DrawerHeader>
-          <IconButton>
+          <IconButton onClick={handleSettingsOpen}>
             <Settings />
           </IconButton>
           <IconButton onClick={onDrawerClose}>
@@ -42,11 +52,26 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
           <Typography variant="big" noWrap component="div">
             No Workspace Selected
           </Typography>
-          <Typography paragraph>
+          <Card
+            sx={{
+              padding: '10px'
+            }}
+          >
             Please configure a workspace using the settings button above.
-          </Typography>
+          </Card>
         </Box>
       </Drawer>
+      <Dialog
+        open={settingsOpen}
+        onClose={handleSettingsClose}
+      >
+        <Typography paragraph>
+          This is a modal.
+        </Typography>
+        <Button variant="outlined" onClick={handleSettingsClose}>
+          Close modal.
+        </Button>
+      </Dialog>
     </>
   );
 }

@@ -1,29 +1,63 @@
 import React from 'react';
 
-import { Button, Divider, FormControl, FormHelperText, InputLabel, List, ListItem, ListItemText, MenuItem, Paper, Select, TextField } from '@mui/material';
-import { FolderOpen, LibraryBooks } from '@mui/icons-material';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import Divider from '@mui/material/Divider';
+import FormControl from '@mui/material/FormControl';
+import FormHelperText from '@mui/material/FormHelperText';
+import InputLabel from '@mui/material/InputLabel';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
+import Select from '@mui/material/Select';
+import Snackbar from '@mui/material/Snackbar';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+
+import Delete from '@mui/icons-material/Delete';
+import FolderOpen from '@mui/icons-material/FolderOpen';
+import LibraryBooks from '@mui/icons-material/LibraryBooks';
 
 const SettingsForm = ({ settings, setSettings }) => {
-  const [ directory, setDirectory ] = React.useState('');
-  const [ themeName, setThemeName ] = React.useState(settings['themeName']);
-  const [ workspaceName, setWorkspaceName ] = React.useState('');
   const [ addWorkspace, setAddWorkspace ] = React.useState({});
+  const [ directory, setDirectory ] = React.useState('');
+  const [ showAlert, setShowAlert ] = React.useState(false);
+  const [ themeName, setThemeName ] = React.useState(settings['themeName']);
+  const [ workspaceId, setWorkspaceId ] = React.useState('');
+  const [ workspaceName, setWorkspaceName ] = React.useState('');
   const [ workspaces, setWorkspaces ] = React.useState(settings['workspaces']);
 
   // React.useEffect(() => {
   //   console.log("Got workspaces: " + JSON.stringify(workspaces));
   // }, [workspaces]); 
 
-  const handleAddWorkspace = async () => {
+  const handleAddWorkspace = async() => {
+    
+    // settings['workspaces'][workspaceId] =  {
+    //   name: result['name'],
+    //   directory: result['dir']
+    // };
+  }
+
+  const handleBrowseWorkspace = async () => {
     const result = await window.electronAPI.browseDirectory();
-    // TODO: Probably worthwhile to see if the workspace was already added
-    const workspaceId = await window.electronAPI.generateUUID();
-    settings['workspaces'][workspaceId] =  {
-      name: result['name'],
-      directory: result['dir']
-    };
-    setWorkspaces(settings['workspaces']);
-    setSettings(settings);
+    if (result['success']) {
+      // TODO: Probably worthwhile to see if the workspace was already added
+      const workspaceId = await window.electronAPI.generateUUID();
+      setWorkspaceId(workspaceId);
+      setDirectory(result['dir']);
+      setWorkspaceName(result['name']);
+    } else {
+      setDirectory('');
+      setShowAlert(true);
+    }
+
+  }
+
+  const handleCloseAlert = () => {
+    setShowAlert(false);
   }
 
   const handleThemeChange = (event) => {
@@ -35,7 +69,21 @@ const SettingsForm = ({ settings, setSettings }) => {
 
   return (
     <>
-    <Divider textAlign="left">Appearance</Divider>
+      <Snackbar 
+        open={showAlert}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        onClose={handleCloseAlert}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="error"
+          varient="filled"
+          sx={{ width: '100%' }}
+        >
+          Unable to select a directory.
+        </Alert>
+      </Snackbar>
+      <Divider textAlign="left">Appearance</Divider>
       <Paper sx={{ m: 2, p: 2 }}>
         <FormControl>
           <InputLabel id="settings-select-theme-label">Theme</InputLabel>
@@ -56,46 +104,50 @@ const SettingsForm = ({ settings, setSettings }) => {
       </Paper>
       <Divider textAlign="left">Add Workspace</Divider>
       <Paper sx={{ m: 2, p: 2 }}>
-        <FormControl flex={1}>
-          <TextField
-            id="settings-text-directory-input"
-            label="Directory"
-            disabled={true}
-            value={directory} />
-          <FormHelperText id="settings-text-directory-input">
-            Select a directory to add a workspaces.
-          </FormHelperText>
-        </FormControl>
-        <FormControl>
-          <Button
-            id="settings-open-workspace"
-            component="label"
-            color="inherit"
-            startIcon={<FolderOpen />}
-            onClick={handleAddWorkspace}
-          >
-            Select directory
-          </Button>
-        </FormControl>
-        <FormControl>
-          <TextField
-            id="settings-text-name-input"
-            label="Name"
-            value={workspaceName} />
-          <FormHelperText id="settings-text-name-input">
-            Select a name for your workspace.
-          </FormHelperText>
-        </FormControl>
-        <FormControl>
-          <Button
-            id="settings-open-workspace"
-            component="label"
-            color="inherit"
-            startIcon={<FolderOpen />}
-          >
-            Add Workspace
-          </Button>
-        </FormControl>
+        <Stack spacing={2}>
+          <FormControl flex={1}>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                id="settings-text-directory-input"
+                label="Directory"
+                disabled={true}
+                value={directory}
+                sx={{ flex: 1 }} />
+              <Button
+                id="settings-open-workspace"
+                component="label"
+                color="inherit"
+                startIcon={<FolderOpen />}
+                onClick={handleBrowseWorkspace}
+              >
+                Browse
+              </Button>
+            </Stack>
+            <FormHelperText id="settings-text-directory-input">
+              Select a directory to add a workspaces.
+            </FormHelperText>
+          </FormControl>
+          <FormControl>
+            <TextField
+              id="settings-text-name-input"
+              label="Name"
+              value={workspaceName}
+              sx={{ width: "36ch" }} />
+            <FormHelperText id="settings-text-name-input">
+              Select a name for your workspace.
+            </FormHelperText>
+          </FormControl>
+          <FormControl>
+            <Button
+              id="settings-open-workspace"
+              component="label"
+              color="inherit"
+              startIcon={<FolderOpen />}
+            >
+              Add Workspace
+            </Button>
+          </FormControl>
+        </Stack>
       </Paper>
       <Divider textAlign="left">Existing Workspaces</Divider>
       <Paper sx={{ m: 2, p: 2 }}>
@@ -106,7 +158,9 @@ const SettingsForm = ({ settings, setSettings }) => {
                 <LibraryBooks sx={{ mr: 2 }} />
                 <ListItemText
                   primary={workspace.name}
-                  secondary={workspace.directory}/>
+                  secondary={workspace.directory}
+                  sx={{ flex: 1 }}/>
+                <Delete />
               </ListItem>
             ))
           }

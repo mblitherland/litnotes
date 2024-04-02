@@ -1,9 +1,14 @@
 import React from 'react';
 
 import { useTheme } from '@mui/material';
-import { Box, Button, Card, Dialog, Divider, Drawer, IconButton, Typography } from '@mui/material';
+import { Box, Button, Card, Dialog, Divider, Drawer, IconButton, Slide, Typography } from '@mui/material';
 import { ChevronLeft, ChevronRight, Settings } from '@mui/icons-material';
 import DrawerHeader from './drawer-header.jsx';
+import SettingsForm from './settings/settings-form.jsx';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, ...props }) => {
   const theme = useTheme();
@@ -62,15 +67,13 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
         </Box>
       </Drawer>
       <Dialog
+        fullScreen
         open={settingsOpen}
         onClose={handleSettingsClose}
+        TransitionComponent={Transition}
       >
-        <Typography paragraph>
-          This is a modal.
-        </Typography>
-        <Button variant="outlined" onClick={handleSettingsClose}>
-          Close modal.
-        </Button>
+        <SettingsForm 
+          handleSettingsClose={handleSettingsClose} />
       </Dialog>
     </>
   );

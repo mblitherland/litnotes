@@ -24,7 +24,7 @@ const store = new Store({
       winX: 100,
       winY: 100
     },
-    workSpaces: {}
+    workspaces: {}
   }
 });
 

@@ -21,7 +21,6 @@ import FolderOpen from '@mui/icons-material/FolderOpen';
 import LibraryBooks from '@mui/icons-material/LibraryBooks';
 
 const SettingsForm = ({ settings, setSettings }) => {
-  const [ addWorkspace, setAddWorkspace ] = React.useState({});
   const [ directory, setDirectory ] = React.useState('');
   const [ showAlert, setShowAlert ] = React.useState(false);
   const [ themeName, setThemeName ] = React.useState(settings['themeName']);
@@ -29,22 +28,22 @@ const SettingsForm = ({ settings, setSettings }) => {
   const [ workspaceName, setWorkspaceName ] = React.useState('');
   const [ workspaces, setWorkspaces ] = React.useState(settings['workspaces']);
 
-  // React.useEffect(() => {
-  //   console.log("Got workspaces: " + JSON.stringify(workspaces));
-  // }, [workspaces]); 
-
   const handleAddWorkspace = async() => {
+    // TODO: Probably worthwhile to see if the workspace was already added
     
-    // settings['workspaces'][workspaceId] =  {
-    //   name: result['name'],
-    //   directory: result['dir']
-    // };
+    settings['workspaces'][workspaceId] =  {
+      name: workspaceName,
+      directory: directory
+    };
+    setDirectory('');
+    setWorkspaceName('');
+    setWorkspaces(settings['workspaces']);
+    setSettings(settings);
   }
 
   const handleBrowseWorkspace = async () => {
     const result = await window.electronAPI.browseDirectory();
     if (result['success']) {
-      // TODO: Probably worthwhile to see if the workspace was already added
       const workspaceId = await window.electronAPI.generateUUID();
       setWorkspaceId(workspaceId);
       setDirectory(result['dir']);
@@ -53,7 +52,10 @@ const SettingsForm = ({ settings, setSettings }) => {
       setDirectory('');
       setShowAlert(true);
     }
+  }
 
+  const handleChangeName = (event) => {
+    setWorkspaceName(event.target.value);
   }
 
   const handleCloseAlert = () => {
@@ -61,7 +63,6 @@ const SettingsForm = ({ settings, setSettings }) => {
   }
 
   const handleThemeChange = (event) => {
-    // TODO: This might be unnecessarily convoluted
     settings['themeName'] = event.target.value;
     setThemeName(event.target.value);
     setSettings(settings);
@@ -83,7 +84,7 @@ const SettingsForm = ({ settings, setSettings }) => {
           Unable to select a directory.
         </Alert>
       </Snackbar>
-      <Divider textAlign="left">Appearance</Divider>
+      <Divider textAlign="left" sx={{ mt: 2 }}>Appearance</Divider>
       <Paper sx={{ m: 2, p: 2 }}>
         <FormControl>
           <InputLabel id="settings-select-theme-label">Theme</InputLabel>
@@ -127,25 +128,28 @@ const SettingsForm = ({ settings, setSettings }) => {
               Select a directory to add a workspaces.
             </FormHelperText>
           </FormControl>
-          <FormControl>
-            <TextField
-              id="settings-text-name-input"
-              label="Name"
-              value={workspaceName}
-              sx={{ width: "36ch" }} />
+          <FormControl flex={1}>
+            <Stack direction="row" spacing={2}>
+              <TextField
+                id="settings-text-name-input"
+                label="Name"
+                value={workspaceName}
+                sx={{ width: "36ch" }}
+                onChange={handleChangeName}/>
+              <Button
+                id="settings-open-workspace"
+                component="label"
+                color="inherit"
+                startIcon={<FolderOpen />}
+                disabled={!(directory && workspaceName)}
+                onClick={handleAddWorkspace}
+              >
+                Add Workspace
+              </Button>
+            </Stack>
             <FormHelperText id="settings-text-name-input">
               Select a name for your workspace.
             </FormHelperText>
-          </FormControl>
-          <FormControl>
-            <Button
-              id="settings-open-workspace"
-              component="label"
-              color="inherit"
-              startIcon={<FolderOpen />}
-            >
-              Add Workspace
-            </Button>
           </FormControl>
         </Stack>
       </Paper>

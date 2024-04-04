@@ -10,9 +10,9 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-const themeString = await window.electronAPI.getSetting('theme');
+const themeName = await window.electronAPI.getSetting('themeName');
 
-const theme = getTheme(themeString);
+const theme = getTheme(themeName);
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);

@@ -1,14 +1,18 @@
 import React from 'react';
 
 import { useTheme } from '@mui/material';
-import { Box, Button, Card, Dialog, Divider, Drawer, IconButton, Slide, Typography } from '@mui/material';
+import { Box, Card, Dialog, Divider, Drawer, IconButton, Slide, Typography } from '@mui/material';
 import { ChevronLeft, ChevronRight, Settings } from '@mui/icons-material';
 import DrawerHeader from './drawer-header.jsx';
-import SettingsForm from './settings/settings-form.jsx';
+import SettingsModal from './settings/settings-modal.jsx';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const themeName = await window.electronAPI.getSetting('themeName');
+const workSpaces = await window.electronAPI.getSetting('workSpaces');
+const settings = { themeName, workSpaces };
 
 const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, ...props }) => {
   const theme = useTheme();
@@ -22,6 +26,11 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
   const handleSettingsClose = () => {
     setSettingsOpen(false);
   }
+
+  const setSettings = (newSettings) => {
+    settings['themeName'] = newSettings['themeName'];
+    settings['workSpaces'] = newSettings['workSpaces'];
+  };
 
   return (
     <>
@@ -72,7 +81,8 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
         onClose={handleSettingsClose}
         TransitionComponent={Transition}
       >
-        <SettingsForm 
+        <SettingsModal
+          settings={settings}
           handleSettingsClose={handleSettingsClose} />
       </Dialog>
     </>

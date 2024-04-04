@@ -5,11 +5,13 @@ A list of all the things to do for Litnotes
 ## Todos
 
 1) 2024-03-15 Save load modify configuration file
-    - Put a "settings" "gear" button on the opening page to manually open and close settings dialogue
-        - Have that gear open a configuration screen
-    - On application open if no workspaces are found show "create workspace" dialogue
-    - On application open load preferences if they exist
-    - Save window size (location?) on close
+    - If no workspaces are found show "create workspace" dialogue
+2) 2024-04-03 Select current workspace form drawer
+    - Remember last workspace selected
+    - Have a select widget to chose current workspace
+    - On workspace select get the file tree for the workspaces
+    - On application start if there's a last workspace selected get the file tree for that workspace
+    - Have a button to refresh the workspace tree
 
 Future things to consider
 - Implement content security: https://www.electronjs.org/docs/latest/tutorial/security#1-only-load-secure-content
@@ -41,3 +43,7 @@ Working on all the skeleton stuff so I can start adding features.
             - name
             - directory (file system)
             - open files (relative to location, array)
+    - Put a "settings" "gear" button on the opening page to manually open and close settings dialogue
+        - Have that gear open a configuration screen
+    - Load preferences if they exist on application start
+    - Save window size (location?) on close

@@ -6,9 +6,6 @@ import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Paper from '@mui/material/Paper';
 import Select from '@mui/material/Select';
@@ -16,9 +13,9 @@ import Snackbar from '@mui/material/Snackbar';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 
-import Delete from '@mui/icons-material/Delete';
 import FolderOpen from '@mui/icons-material/FolderOpen';
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
+
+import WorkspaceList from './workspace-list.jsx';
 
 const SettingsForm = ({ settings, setSettings }) => {
   const [ directory, setDirectory ] = React.useState('');
@@ -160,27 +157,7 @@ const SettingsForm = ({ settings, setSettings }) => {
         </Stack>
       </Paper>
       <Divider textAlign="left">Existing Workspaces</Divider>
-      <Paper sx={{ m: 2, p: 2 }}>
-        <List>
-          {
-            Object.entries(workspaces).map(([id, workspace]) => (
-              <ListItem key={id}>
-                <LibraryBooks sx={{ mr: 2 }} />
-                <ListItemText
-                  primary={workspace.name}
-                  secondary={workspace.directory}
-                  sx={{ flex: 1 }}/>
-                <Button
-                  id="settings-delete-workspace"
-                  component="label"
-                  color="inherit"
-                  startIcon={<Delete />}
-                  onClick={() => { handleDeleteWorkspace(id) }} />
-              </ListItem>
-            ))
-          }
-        </List>
-      </Paper>
+      <WorkspaceList workspaces={workspaces} handleDeleteWorkspace={handleDeleteWorkspace}/>
     </>
   );
 };

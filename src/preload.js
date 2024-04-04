@@ -4,5 +4,6 @@
 import { contextBridge, ipcRenderer } from 'electron/renderer';
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  getSetting: (key) => ipcRenderer.invoke('store:getSetting', key)
+  getSetting: (key) => ipcRenderer.invoke('store:getSetting', key),
+  setSetting: (key, value) => ipcRenderer.invoke('store:setSetting', key, value)
 });

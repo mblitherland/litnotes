@@ -23,8 +23,12 @@ const store = new Store({
   }
 });
 
-const handleGetSetting = (event, key) => {
+const handleGetSetting = (_, key) => {
   return store.get(key);
+}
+
+const handleSetSetting = (_, key, value) => {
+  store.set(key, value);
 }
 
 const createWindow = () => {
@@ -64,6 +68,7 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   ipcMain.handle('store:getSetting', handleGetSetting);
+  ipcMain.handle('store:setSetting', handleSetSetting);
   createWindow();
 });
 

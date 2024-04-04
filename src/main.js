@@ -12,6 +12,7 @@ const store = new Store({
   configName: 'user-settings',
   defaults: {
     themeName: 'light',
+    lastWorkspace: '',
     drawer: {
       open: true,
       width: 300

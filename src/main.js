@@ -27,10 +27,11 @@ const store = new Store({
   }
 });
 
+var mainWindow;
+
 const handleBrowseDirectory = async () => {
-  // TODO: Should really catch exceptions and handle them here to the front-end
-  // TODO: The showOpenDialog REALLY needs a reference to mainWindow
-  const result = await dialog.showOpenDialog({ properties: ['openDirectory'] });
+  // TODO: I think I may want to handle exceptions here and send that as an error to the front end
+  const result = await dialog.showOpenDialog(mainWindow, { properties: ['openDirectory'] });
   console.log(">>> Browse directory found: '"+JSON.stringify(result)+"'");
   return result;
 }
@@ -40,6 +41,7 @@ const handleGetSetting = (_, key) => {
 }
 
 const handleSetSetting = (_, key, value) => {
+  console.log(">>> Saving user settings for: '"+key+"'");
   store.set(key, value);
 }
 
@@ -72,7 +74,9 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
+  // TODO: This could be a config setting
   mainWindow.webContents.openDevTools();
+  return mainWindow;
 };
 
 // This method will be called when Electron has finished
@@ -82,7 +86,7 @@ app.on('ready', () => {
   ipcMain.handle('file:browseDirectory', handleBrowseDirectory);
   ipcMain.handle('store:getSetting', handleGetSetting);
   ipcMain.handle('store:setSetting', handleSetSetting);
-  createWindow();
+  mainWindow = createWindow();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

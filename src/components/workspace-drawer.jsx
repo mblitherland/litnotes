@@ -7,9 +7,11 @@ import Card from '@mui/material/Card';
 import Dialog from '@mui/material/Dialog';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import Slide from '@mui/material/Slide';
-import Typography from '@mui/material/Typography';
 
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
@@ -30,6 +32,7 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
   const theme = useTheme();
 
   const [ settingsOpen, setSettingsOpen ] = React.useState(false);
+  const [ workspace, setWorkspace ] = React.useState('none');
 
   const handleSettingsOpen = () => {
     setSettingsOpen(true);
@@ -37,6 +40,10 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
 
   const handleSettingsClose = () => {
     setSettingsOpen(false);
+  }
+
+  const handleWorkspaceChange = (workspace) => {
+    setWorkspace(workspace);
   }
 
   const saveSettings = async () => {
@@ -80,11 +87,18 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
             padding: 1,
           }}
         >
-          <Typography variant="big" noWrap component="div">
-            No Workspace Selected
-          </Typography>
+          <FormControl fullWidth={true}>
+            <Select
+              id="drawer-select-workspace"
+              value={workspace}
+              onChange={handleWorkspaceChange}
+            >
+              <MenuItem value="none">No Workspace Selected</MenuItem>
+            </Select>
+          </FormControl>
           <Card
             sx={{
+              marginTop: '10px',
               padding: '10px'
             }}
           >

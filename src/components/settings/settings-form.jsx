@@ -6,13 +6,14 @@ import FolderOpen from '@mui/icons-material/FolderOpen';
 const SettingsForm = ({ settings, setSettings }) => {
   const [ themeName, setThemeName ] = React.useState(settings['themeName']);
 
-  const handleBrowseForWorkSpace = async () => {
+  const handleAddWorkSpace = async () => {
     const result = await window.electronAPI.browseDirectory();
-    const dir = result['filePaths'][0];
-    console.log("got directory: "+dir);
+    console.log("got result: "+JSON.stringify(result));
+    // TODO: Actually persist new workspace
   }
 
   const handleThemeChange = (event) => {
+    // TODO: This might be unnecessarily convoluted
     settings['themeName'] = event.target.value;
     setThemeName(event.target.value);
     setSettings(settings);
@@ -42,7 +43,7 @@ const SettingsForm = ({ settings, setSettings }) => {
           component="label"
           color="inherit"
           startIcon={<FolderOpen />}
-          onClick={handleBrowseForWorkSpace}
+          onClick={handleAddWorkSpace}
         >
           Select workspace directory
         </Button>

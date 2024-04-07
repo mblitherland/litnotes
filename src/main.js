@@ -1,6 +1,7 @@
 import { app, dialog, ipcMain, BrowserWindow } from 'electron';
 import Store from './utilities/settings-store.js';
 import { debounce } from './utilities/common.js';
+import path from 'path';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -33,7 +34,9 @@ const handleBrowseDirectory = async () => {
   // TODO: I think I may want to handle exceptions here and send that as an error to the front end
   const result = await dialog.showOpenDialog(mainWindow, { properties: ['openDirectory'] });
   console.log(">>> Browse directory found: '"+JSON.stringify(result)+"'");
-  return result;
+  const dir = result['filePaths'][0];
+  const [ name ] = dir.split(path.sep).slice(-1);
+  return { dir, name };
 }
 
 const handleGetSetting = (_, key) => {

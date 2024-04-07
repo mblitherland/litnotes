@@ -15,7 +15,7 @@ const store = new Store({
     lastWorkspace: '',
     drawer: {
       open: true,
-      width: 300
+      width: 320
     },
     windowBounds: {
       width: 1280,

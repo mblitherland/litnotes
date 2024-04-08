@@ -6,22 +6,23 @@ import { FolderOpen, LibraryBooks } from '@mui/icons-material';
 const SettingsForm = ({ settings, setSettings }) => {
   const [ directory, setDirectory ] = React.useState('');
   const [ themeName, setThemeName ] = React.useState(settings['themeName']);
-  const [ workSpaceName, setWorkSpaceName ] = React.useState('');
-  const [ workSpaces, setWorkSpaces ] = React.useState(settings['workSpaces']);
+  const [ workspaceName, setWorkspaceName ] = React.useState('');
+  const [ addWorkspace, setAddWorkspace ] = React.useState({});
+  const [ workspaces, setWorkspaces ] = React.useState(settings['workspaces']);
 
   // React.useEffect(() => {
-  //   console.log("Got workspaces: " + JSON.stringify(workSpaces));
-  // }, [workSpaces]); 
+  //   console.log("Got workspaces: " + JSON.stringify(workspaces));
+  // }, [workspaces]); 
 
-  const handleAddWorkSpace = async () => {
+  const handleAddWorkspace = async () => {
     const result = await window.electronAPI.browseDirectory();
     // TODO: Probably worthwhile to see if the workspace was already added
-    const workSpaceId = await window.electronAPI.generateUUID();
-    settings['workSpaces'][workSpaceId] =  {
+    const workspaceId = await window.electronAPI.generateUUID();
+    settings['workspaces'][workspaceId] =  {
       name: result['name'],
       directory: result['dir']
     };
-    setWorkSpaces(settings['workSpaces']);
+    setWorkspaces(settings['workspaces']);
     setSettings(settings);
   }
 
@@ -71,7 +72,7 @@ const SettingsForm = ({ settings, setSettings }) => {
             component="label"
             color="inherit"
             startIcon={<FolderOpen />}
-            onClick={handleAddWorkSpace}
+            onClick={handleAddWorkspace}
           >
             Select directory
           </Button>
@@ -80,7 +81,7 @@ const SettingsForm = ({ settings, setSettings }) => {
           <TextField
             id="settings-text-name-input"
             label="Name"
-            value={workSpaceName} />
+            value={workspaceName} />
           <FormHelperText id="settings-text-name-input">
             Select a name for your workspace.
           </FormHelperText>
@@ -100,12 +101,12 @@ const SettingsForm = ({ settings, setSettings }) => {
       <Paper sx={{ m: 2, p: 2 }}>
         <List>
           {
-            Object.entries(workSpaces).map(([id, workSpace]) => (
+            Object.entries(workspaces).map(([id, workspace]) => (
               <ListItem key={id}>
                 <LibraryBooks sx={{ mr: 2 }} />
                 <ListItemText
-                  primary={workSpace.name}
-                  secondary={workSpace.directory}/>
+                  primary={workspace.name}
+                  secondary={workspace.directory}/>
               </ListItem>
             ))
           }

@@ -11,8 +11,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const themeName = await window.electronAPI.getSetting('themeName');
-const workSpaces = await window.electronAPI.getSetting('workSpaces');
-const settings = { themeName, workSpaces };
+const workspaces = await window.electronAPI.getSetting('workspaces');
+const settings = { themeName, workspaces };
 
 const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, ...props }) => {
   const theme = useTheme();
@@ -29,12 +29,12 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
 
   const saveSettings = async () => {
     await window.electronAPI.setSetting('themeName', settings['themeName']);
-    await window.electronAPI.setSetting('workSpaces', settings['workSpaces']);
+    await window.electronAPI.setSetting('workspaces', settings['workspaces']);
   };
 
   const setSettings = (newSettings) => {
     settings['themeName'] = newSettings['themeName'];
-    settings['workSpaces'] = newSettings['workSpaces'];
+    settings['workspaces'] = newSettings['workspaces'];
   };
 
   return (

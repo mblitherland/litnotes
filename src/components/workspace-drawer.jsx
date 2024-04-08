@@ -17,7 +17,6 @@ const settings = { themeName, workSpaces };
 const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, ...props }) => {
   const theme = useTheme();
 
-  const [ modified, setModified ] = React.useState(false);
   const [ settingsOpen, setSettingsOpen ] = React.useState(false);
 
   const handleSettingsOpen = () => {
@@ -31,7 +30,6 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
   const saveSettings = async () => {
     await window.electronAPI.setSetting('themeName', settings['themeName']);
     await window.electronAPI.setSetting('workSpaces', settings['workSpaces']);
-    setModified(false);
   };
 
   const setSettings = (newSettings) => {
@@ -92,9 +90,7 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
           settings={settings}
           setSettings={setSettings}
           saveSettings={saveSettings}
-          handleSettingsClose={handleSettingsClose}
-          modified={modified}
-          setModified={setModified}/>
+          handleSettingsClose={handleSettingsClose} />
       </Dialog>
     </>
   );

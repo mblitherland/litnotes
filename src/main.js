@@ -1,7 +1,7 @@
-import { app, dialog, ipcMain, BrowserWindow } from 'electron';
+import { app, ipcMain, BrowserWindow } from 'electron';
 import Store from './utilities/settings-store.js';
 import { debounce } from './utilities/common.js';
-import path from 'path';
+import { browseDirectory, generateUUID, getSetting, setSetting } from './utilities/main-ipc-helper.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -24,28 +24,22 @@ const store = new Store({
       winX: 100,
       winY: 100
     },
-    workSpaces: []
+    workSpaces: {}
   }
 });
 
 var mainWindow;
 
 const handleBrowseDirectory = async () => {
-  // TODO: I think I may want to handle exceptions here and send that as an error to the front end
-  const result = await dialog.showOpenDialog(mainWindow, { properties: ['openDirectory'] });
-  console.log(">>> Browse directory found: '"+JSON.stringify(result)+"'");
-  const dir = result['filePaths'][0];
-  const [ name ] = dir.split(path.sep).slice(-1);
-  return { dir, name };
+  return await browseDirectory(mainWindow);
 }
 
-const handleGetSetting = (_, key) => {
-  return store.get(key);
+const handleGetSetting = async (...props) => {
+  return getSetting(store, ...props)
 }
 
-const handleSetSetting = (_, key, value) => {
-  console.log(">>> Saving user settings for: '"+key+"'");
-  store.set(key, value);
+const handleSetSetting = async (...props) => {
+  setSetting(store, ...props)
 }
 
 const createWindow = () => {
@@ -89,6 +83,7 @@ app.on('ready', () => {
   ipcMain.handle('file:browseDirectory', handleBrowseDirectory);
   ipcMain.handle('store:getSetting', handleGetSetting);
   ipcMain.handle('store:setSetting', handleSetSetting);
+  ipcMain.handle('util:generateUUID', generateUUID);
   mainWindow = createWindow();
 });
 

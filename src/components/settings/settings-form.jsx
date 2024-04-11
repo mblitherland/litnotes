@@ -62,6 +62,12 @@ const SettingsForm = ({ settings, setSettings }) => {
     setShowAlert(false);
   }
 
+  const handleDeleteWorkspace = (id) => {
+    delete settings['workspaces'][id];
+    setWorkspaces(settings['workspaces'][id]);
+    setSettings(settings);
+  }
+
   const handleThemeChange = (event) => {
     settings['themeName'] = event.target.value;
     setThemeName(event.target.value);
@@ -164,7 +170,12 @@ const SettingsForm = ({ settings, setSettings }) => {
                   primary={workspace.name}
                   secondary={workspace.directory}
                   sx={{ flex: 1 }}/>
-                <Delete />
+                <Button
+                  id="settings-delete-workspace"
+                  component="label"
+                  color="inherit"
+                  startIcon={<Delete />}
+                  onClick={() => { handleDeleteWorkspace(id) }} />
               </ListItem>
             ))
           }

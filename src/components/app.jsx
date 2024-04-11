@@ -8,7 +8,7 @@ import WorkspaceMain from './workspace-main.jsx';
 
 const drawerWidth = 320;
 
-export default function App() {
+const App = ({ settings, updateSettings }) => {
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
 
@@ -18,7 +18,7 @@ export default function App() {
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
-  
+
   return (
     <Box
       sx={{ display: 'flex' }}
@@ -31,10 +31,14 @@ export default function App() {
         drawerOpen={drawerOpen}
         onDrawerClose={handleDrawerClose}
         onDrawerOpen={handleDrawerOpen}
-        drawerWidth={drawerWidth} />
+        drawerWidth={drawerWidth}
+        settings={settings}
+        updateSettings={updateSettings} />
       <WorkspaceMain
         drawerOpen={drawerOpen}
         drawerWidth={drawerWidth} />
     </Box>
   );
 }
+
+export default App;

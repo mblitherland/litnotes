@@ -14,9 +14,16 @@ const Store = class Store {
     return this.data[key];
   }
 
+  getAll() {
+    return this.data;
+  }
+
+  save() {
+    fs.writeFileSync(this.path, JSON.stringify(this.data));
+  }
+
   set(key, val) {
     this.data[key] = val;
-    fs.writeFileSync(this.path, JSON.stringify(this.data));
   }
 
   parseDataFile(filePath, defaults) {

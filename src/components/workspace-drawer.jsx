@@ -39,11 +39,15 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
   }
 
   React.useEffect(() => {
-    setWorkspace(settings['lastWorkspace']);
+    var selectedWorkspace = settings['lastWorkspace'];
+    if (!(selectedWorkspace in settings['workspaces'])) {
+      selectedWorkspace = 'none';
+    }
+    setWorkspace(selectedWorkspace);
   }, [ settings ]);
 
-  const handleWorkspaceChange = (workspace) => {
-    settings['lastWorkspace'] = workspace;
+  const handleWorkspaceChange = (event) => {
+    settings['lastWorkspace'] = event.target.value;
     updateSettings(settings);
   }
 

@@ -17,7 +17,7 @@ import FolderOpen from '@mui/icons-material/FolderOpen';
 
 import WorkspaceList from './workspace-list.jsx';
 
-const SettingsForm = ({ settings, setSettings }) => {
+const SettingsForm = ({ settings, updateSettings }) => {
   const [ directory, setDirectory ] = React.useState('');
   const [ showAlert, setShowAlert ] = React.useState(false);
   const [ themeName, setThemeName ] = React.useState(settings['themeName']);
@@ -25,7 +25,7 @@ const SettingsForm = ({ settings, setSettings }) => {
   const [ workspaceName, setWorkspaceName ] = React.useState('');
   const [ workspaces, setWorkspaces ] = React.useState(settings['workspaces']);
 
-  const handleAddWorkspace = async() => {
+  const handleAddWorkspace = async () => {
     // TODO: Probably worthwhile to see if the workspace was already added
     
     settings['workspaces'][workspaceId] =  {
@@ -35,7 +35,7 @@ const SettingsForm = ({ settings, setSettings }) => {
     setDirectory('');
     setWorkspaceName('');
     setWorkspaces(settings['workspaces']);
-    setSettings(settings);
+    updateSettings(settings);
   }
 
   const handleBrowseWorkspace = async () => {
@@ -62,13 +62,13 @@ const SettingsForm = ({ settings, setSettings }) => {
   const handleDeleteWorkspace = (id) => {
     delete settings['workspaces'][id];
     setWorkspaces(settings['workspaces']);
-    setSettings(settings);
+    updateSettings(settings);
   }
 
   const handleThemeChange = (event) => {
     settings['themeName'] = event.target.value;
     setThemeName(event.target.value);
-    setSettings(settings);
+    updateSettings(settings);
   }
 
   return (
@@ -101,9 +101,6 @@ const SettingsForm = ({ settings, setSettings }) => {
             <MenuItem value="dark">Dark</MenuItem>
             <MenuItem value="light">Light</MenuItem>
           </Select>
-          <FormHelperText id="settings-select-theme-helper-text">
-            This change requires a restart.
-          </FormHelperText>
         </FormControl>
       </Paper>
       <Divider textAlign="left">Add Workspace</Divider>

@@ -24,15 +24,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const themeName = await window.electronAPI.getSetting('themeName');
-const workspaces = await window.electronAPI.getSetting('workspaces');
-const settings = { themeName, workspaces };
-
-const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, ...props }) => {
+const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, settings, updateSettings, ...props }) => {
   const theme = useTheme();
 
   const [ settingsOpen, setSettingsOpen ] = React.useState(false);
-  const [ workspace, setWorkspace ] = React.useState('none');
+  const [ workspace, setWorkspace ] = React.useState(settings['lastWorkspace']);
 
   const handleSettingsOpen = () => {
     setSettingsOpen(true);
@@ -42,19 +38,18 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
     setSettingsOpen(false);
   }
 
-  const handleWorkspaceChange = (workspace) => {
-    setWorkspace(workspace);
+  React.useEffect(() => {
+    var selectedWorkspace = settings['lastWorkspace'];
+    if (!(selectedWorkspace in settings['workspaces'])) {
+      selectedWorkspace = 'none';
+    }
+    setWorkspace(selectedWorkspace);
+  }, [ settings ]);
+
+  const handleWorkspaceChange = (event) => {
+    settings['lastWorkspace'] = event.target.value;
+    updateSettings(settings);
   }
-
-  const saveSettings = async () => {
-    await window.electronAPI.setSetting('themeName', settings['themeName']);
-    await window.electronAPI.setSetting('workspaces', settings['workspaces']);
-  };
-
-  const setSettings = (newSettings) => {
-    settings['themeName'] = newSettings['themeName'];
-    settings['workspaces'] = newSettings['workspaces'];
-  };
 
   return (
     <>
@@ -116,8 +111,7 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
       >
         <SettingsModal
           settings={settings}
-          setSettings={setSettings}
-          saveSettings={saveSettings}
+          updateSettings={updateSettings}
           handleSettingsClose={handleSettingsClose} />
       </Dialog>
     </>

@@ -8,12 +8,7 @@ import Close from '@mui/icons-material/Close';
 import SettingsForm from './settings-form.jsx';
 
 
-const SettingsModal = ({ settings, setSettings, saveSettings, handleSettingsClose }) => {
-
-  const handleSetSettings = (newSettings) => {
-    saveSettings();
-    setSettings(newSettings);
-  };
+const SettingsModal = ({ settings, updateSettings, handleSettingsClose }) => {
 
   return (
     <>
@@ -34,7 +29,7 @@ const SettingsModal = ({ settings, setSettings, saveSettings, handleSettingsClos
           </Typography>
         </Toolbar>
       </AppBar>
-      <SettingsForm settings={settings} setSettings={handleSetSettings} />
+      <SettingsForm settings={settings} updateSettings={updateSettings} />
     </>
   )
 };

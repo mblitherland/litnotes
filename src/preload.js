@@ -5,7 +5,7 @@ import { contextBridge, ipcRenderer } from 'electron/renderer';
 
 contextBridge.exposeInMainWorld('electronAPI', {
   browseDirectory: () => ipcRenderer.invoke('file:browseDirectory'),
-  getSetting: (key) => ipcRenderer.invoke('store:getSetting', key),
-  setSetting: (key, value) => ipcRenderer.invoke('store:setSetting', key, value),
+  getSettings: () => ipcRenderer.invoke('store:getSettings'),
+  setSettings: (settings) => ipcRenderer.invoke('store:setSettings', settings),
   generateUUID: () => ipcRenderer.invoke('util:generateUUID')
 });

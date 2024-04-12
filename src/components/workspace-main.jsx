@@ -23,7 +23,7 @@ const StyledMain = styled('main', { shouldForwardProp: (prop) => prop !== 'drawe
   }),
 );
 
-const WorkspaceMain =  ({ drawerOpen, drawerWidth }) => {
+const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspace }) => {
 
   return (
     <>
@@ -32,6 +32,9 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth }) => {
         drawerWidth={drawerWidth}
       >
         <DrawerHeader />
+        <Typography fontSize={32}>
+          Workspace: {JSON.stringify(selectedWorkspace)}
+        </Typography>
         <Typography paragraph>
           This is just a plain old paragraph.
         </Typography>

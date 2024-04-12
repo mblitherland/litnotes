@@ -1,5 +1,6 @@
 import { randomUUID } from 'crypto';
 import { dialog } from 'electron';
+import { readdir } from 'fs';
 import path from 'path';
 
 const browseDirectory = async (window) => {
@@ -24,6 +25,10 @@ const generateUUID = () => {
   return randomUUID();
 };
 
+const getDirectory = (workspace) => {
+  return readdir(workspace, { withFileTypes: true, recursive: true });
+}
+
 const getSettings = (store) => {
   return store.getAll();
 }
@@ -41,6 +46,7 @@ const setSettings = (store, newSettings) => {
 export { 
   browseDirectory,
   generateUUID,
+  getDirectory,
   getSettings,
   setSettings
 };

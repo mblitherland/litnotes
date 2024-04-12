@@ -35,6 +35,10 @@ const handleBrowseDirectory = async () => {
   return await browseDirectory(mainWindow);
 }
 
+const handleGetDirectory = (workspace) => {
+  return getDirectory(workspace);
+}
+
 const handleGetSettings = async () => {
   return getSettings(store);
 }
@@ -82,9 +86,10 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   ipcMain.handle('file:browseDirectory', handleBrowseDirectory);
+  ipcMain.handle('util:generateUUID', generateUUID);
+  ipcMain.handle('file:getDirectory', handleGetDirectory);
   ipcMain.handle('store:getSettings', handleGetSettings);
   ipcMain.handle('store:setSettings', handleSetSettings);
-  ipcMain.handle('util:generateUUID', generateUUID);
   mainWindow = createWindow();
 });
 

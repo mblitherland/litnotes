@@ -24,7 +24,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth, settings, updateSettings, ...props }) => {
+const WorkspaceDrawer = ({
+  drawerOpen,
+  onDrawerClose,
+  onDrawerOpen,
+  drawerWidth,
+  settings,
+  updateSettings,
+  selectedWorkspace,
+  setSelectedWorkspace,
+  ...props
+}) => {
   const theme = useTheme();
 
   const [ settingsOpen, setSettingsOpen ] = React.useState(false);
@@ -44,11 +54,20 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
       selectedWorkspace = 'none';
     }
     setWorkspace(selectedWorkspace);
+    loadWorkspace(selectedWorkspace);
   }, [ settings ]);
 
   const handleWorkspaceChange = (event) => {
-    settings['lastWorkspace'] = event.target.value;
+    const workspaceId = event.target.value;
+    settings['lastWorkspace'] = workspaceId;
     updateSettings(settings);
+    setSelectedWorkspace(workspaceId);
+  }
+
+  const loadWorkspace = (id) => {
+    // TODO: actually put logic here!!! 
+    console.log("Loading workspace!", id);
+    const workspaceData = null;
   }
 
   return (
@@ -88,7 +107,12 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
               value={workspace}
               onChange={handleWorkspaceChange}
             >
-              <MenuItem value="none">No Workspace Selected</MenuItem>
+              <MenuItem key={'none'} value="none">No Workspace Selected</MenuItem>
+              {
+                Object.entries(settings['workspaces']).map(([id, workspace]) => (
+                  <MenuItem key={id} value={id}>{workspace['name']}</MenuItem>
+                ))
+              }
             </Select>
           </FormControl>
           <Card

@@ -101,9 +101,6 @@ const SettingsForm = ({ settings, updateSettings }) => {
             <MenuItem value="dark">Dark</MenuItem>
             <MenuItem value="light">Light</MenuItem>
           </Select>
-          <FormHelperText id="settings-select-theme-helper-text">
-            This change requires a restart.
-          </FormHelperText>
         </FormControl>
       </Paper>
       <Divider textAlign="left">Add Workspace</Divider>

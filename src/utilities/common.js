@@ -1,4 +1,4 @@
-const debounce = (func, timeout = 300) => {
+const debounce = (func, timeout = 10000) => {
   let timer;
   return (...args) => {
     clearTimeout(timer);

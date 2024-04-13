@@ -25,8 +25,8 @@ const generateUUID = () => {
   return randomUUID();
 };
 
-const getDirectory = (workspace) => {
-  return readdir(workspace, { withFileTypes: true, recursive: true });
+const getDirectory = (workspaceDir) => {
+  return readdir(workspaceDir, { withFileTypes: true, recursive: true });
 }
 
 const getSettings = (store) => {

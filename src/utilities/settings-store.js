@@ -19,6 +19,7 @@ const Store = class Store {
   }
 
   save() {
+    console.log("Writing settings.");
     fs.writeFileSync(this.path, JSON.stringify(this.data));
   }
 

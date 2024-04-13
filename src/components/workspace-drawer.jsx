@@ -38,7 +38,7 @@ const WorkspaceDrawer = ({
   const theme = useTheme();
 
   const [ settingsOpen, setSettingsOpen ] = React.useState(false);
-  const [ workspace, setWorkspace ] = React.useState(settings['lastWorkspace']);
+  const [ workspaceId, setWorkspaceId ] = React.useState(settings['lastWorkspace']);
 
   const handleSettingsOpen = () => {
     setSettingsOpen(true);
@@ -53,7 +53,7 @@ const WorkspaceDrawer = ({
     if (!(selectedWorkspace in settings['workspaces'])) {
       selectedWorkspace = 'none';
     }
-    setWorkspace(selectedWorkspace);
+    setWorkspaceId(selectedWorkspace);
     loadWorkspace(selectedWorkspace);
   }, [ settings ]);
 
@@ -104,10 +104,13 @@ const WorkspaceDrawer = ({
           <FormControl fullWidth={true}>
             <Select
               id="drawer-select-workspace"
-              value={workspace}
+              value={workspaceId}
               onChange={handleWorkspaceChange}
             >
-              <MenuItem key={'none'} value="none">No Workspace Selected</MenuItem>
+              {
+                (workspaceId === 'none' || !(workspaceId in settings['workspaces'])) &&
+                <MenuItem key={'none'} value="none">No Workspace Selected</MenuItem>
+              }
               {
                 Object.entries(settings['workspaces']).map(([id, workspace]) => (
                   <MenuItem key={id} value={id}>{workspace['name']}</MenuItem>

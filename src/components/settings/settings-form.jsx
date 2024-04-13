@@ -64,7 +64,7 @@ const SettingsForm = ({ settings, setSettings }) => {
 
   const handleDeleteWorkspace = (id) => {
     delete settings['workspaces'][id];
-    setWorkspaces(settings['workspaces'][id]);
+    setWorkspaces(settings['workspaces']);
     setSettings(settings);
   }
 

@@ -8,8 +8,7 @@ import WorkspaceMain from './workspace-main.jsx';
 
 const drawerWidth = 320;
 
-const getValidWorkspace = (settings) => {
-  const id = settings['lastWorkspace'];
+const getValidWorkspace = (settings, id) => {
   if (id && id !== "none" && (id in settings['workspaces'])) {
     return settings['workspaces'][id];
   }
@@ -18,7 +17,7 @@ const getValidWorkspace = (settings) => {
 
 const App = ({ settings, updateSettings }) => {
 
-  const initialWorkspace = getValidWorkspace(settings);
+  const initialWorkspace = getValidWorkspace(settings, settings['lastWorkspace']);
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   const [selectedWorkspace, setSelectedWorkspace] = React.useState(initialWorkspace);
@@ -32,7 +31,7 @@ const App = ({ settings, updateSettings }) => {
   };
 
   const handleSelectedWorkspace = (id) => {
-    setSelectedWorkspace(settings['workspaces'][id]);
+    setSelectedWorkspace(getValidWorkspace(settings, id));
   }
 
   return (

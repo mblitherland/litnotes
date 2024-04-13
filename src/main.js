@@ -35,13 +35,17 @@ const handleBrowseDirectory = async () => {
   return await browseDirectory(mainWindow);
 }
 
-const handleGetDirectory = (workspace) => {
-  return getDirectory(workspace);
+const handleGetDirectory = (workspaceDir) => {
+  return getDirectory(workspaceDir);
 }
 
 const handleGetSettings = async () => {
   return getSettings(store);
 }
+
+const debounceSave = debounce(() => {
+  store.save();
+}, 3000);
 
 const handleSetSettings = async (_event, settings) => {
   return setSettings(store, settings);
@@ -64,12 +68,14 @@ const createWindow = () => {
 
   mainWindow.on('move', () => {
     const [ winX, winY ] = mainWindow.getPosition();
-    debounce(store.set('windowPosition', { winX, winY }));
+    store.set('windowPosition', { winX, winY });
+    debounceSave();
   });
 
   mainWindow.on('resize', () => {
     const { width, height } = mainWindow.getBounds();
-    debounce(store.set('windowBounds', { width, height }));
+    store.set('windowBounds', { width, height });
+    debounceSave();
   });
 
   // and load the index.html of the app.

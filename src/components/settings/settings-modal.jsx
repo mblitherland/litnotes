@@ -8,7 +8,7 @@ import Close from '@mui/icons-material/Close';
 import SettingsForm from './settings-form.jsx';
 
 
-const SettingsModal = ({settings, setSettings, saveSettings, handleSettingsClose }) => {
+const SettingsModal = ({ settings, setSettings, saveSettings, handleSettingsClose }) => {
 
   const handleSetSettings = (newSettings) => {
     saveSettings();

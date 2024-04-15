@@ -26,11 +26,31 @@ const generateUUID = () => {
 };
 
 const getDirectory = (workspaceDir) => {
-  console.log("Workspace dir", workspaceDir);
-  const result = fs.readdirSync(workspaceDir, { withFileTypes: true, recursive: true });
-  console.log("result", result);
-  return {};
+  const listing = fs.readdirSync(workspaceDir, { withFileTypes: true, recursive: true });
+  const result = { workspaceDir, directories: {} };
+  listing.forEach(entry => {
+    const relPath = path.relative(workspaceDir, entry.path);
+    if (entry.isDirectory()) {
+      result['directories'][relPath] = { files: [] };
+    } else if (entry.isFile()) {
+      const dirname = path.relative(workspaceDir, path.dirname(entry.path));
+      result['directories'][dirname]['files'].push({ name: entry.name });
+    }
+  });
+  return result;
 }
+
+// For reference this is the format of the getDirectory result:
+// const sample_result = {
+//   "workspaceDir": "<path>",
+//   "directories": {
+//     "/<relative path>/": {
+//       "files": [
+//         { "name": "<file name>" }
+//       ]
+//     }
+//   }
+// };
 
 const getSettings = (store) => {
   return store.getAll();

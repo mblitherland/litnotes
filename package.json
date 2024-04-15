@@ -1,8 +1,8 @@
 {
   "name": "litnotes",
   "productName": "litnotes",
-  "version": "0.1.0",
-  "description": "My Electron application description",
+  "version": "0.1.1",
+  "description": "A desktop application for managing libraries of Markdown documents",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -33,7 +33,7 @@
   "keywords": [],
   "author": {
     "name": "M Litherland",
-    "email": "mlitherland@overdrive.com"
+    "email": "mlitherland@duck.com"
   },
   "license": "MIT",
   "dependencies": {

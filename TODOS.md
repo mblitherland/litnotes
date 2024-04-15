@@ -6,6 +6,7 @@ A list of all the things to do for Litnotes
 
 1) 2024-03-15 Save load modify configuration file
     - If no workspaces are found show "create workspace" dialogue
+    - Deleting a workspace isn't reflected immediately in the settings GUI and it's super annoying. Why does state management hate me?
 2) 2024-04-03 Select current workspace form drawer
     - Remember last workspace selected
     - Have a select widget to chose current workspace

@@ -31,14 +31,13 @@ const WorkspaceDrawer = ({
   drawerWidth,
   settings,
   updateSettings,
-  selectedWorkspace,
-  setSelectedWorkspace,
+  selectedWorkspaceId,
   ...props
 }) => {
   const theme = useTheme();
 
   const [ settingsOpen, setSettingsOpen ] = React.useState(false);
-  const [ workspaceId, setWorkspaceId ] = React.useState(settings['lastWorkspace']);
+  const [ workspaceTree, setWorkspaceTree ] = React.useState({});
 
   const handleSettingsOpen = () => {
     setSettingsOpen(true);
@@ -49,25 +48,19 @@ const WorkspaceDrawer = ({
   }
 
   React.useEffect(() => {
-    var selectedWorkspace = settings['lastWorkspace'];
-    if (!(selectedWorkspace in settings['workspaces'])) {
-      selectedWorkspace = 'none';
-    }
-    setWorkspaceId(selectedWorkspace);
-    loadWorkspace(selectedWorkspace);
-  }, [ settings ]);
+    console.log("Workspace tree updated in WorkspaceDrawer");
+  }, [ workspaceTree] );
 
-  const handleWorkspaceChange = (event) => {
+  const handleWorkspaceChange = async (event) => {
     const workspaceId = event.target.value;
     settings['lastWorkspace'] = workspaceId;
     updateSettings(settings);
-    setSelectedWorkspace(workspaceId);
-  }
 
-  const loadWorkspace = (id) => {
-    // TODO: actually put logic here!!! 
-    console.log("Loading workspace!", id);
-    const workspaceData = null;
+    const dir = settings['workspaces'][workspaceId]['directory'];
+    console.log("Selected dir", dir);
+    const workspaceDirectory = await window.electronAPI.getDirectory(dir);
+    console.log("Got dir", workspaceDirectory);
+    setWorkspaceTree(workspaceDirectory);
   }
 
   return (
@@ -104,11 +97,11 @@ const WorkspaceDrawer = ({
           <FormControl fullWidth={true}>
             <Select
               id="drawer-select-workspace"
-              value={workspaceId}
+              value={selectedWorkspaceId}
               onChange={handleWorkspaceChange}
             >
               {
-                (workspaceId === 'none' || !(workspaceId in settings['workspaces'])) &&
+                (selectedWorkspaceId === 'none' || !(selectedWorkspaceId in settings['workspaces'])) &&
                 <MenuItem key={'none'} value="none">No Workspace Selected</MenuItem>
               }
               {

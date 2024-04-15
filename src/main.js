@@ -1,7 +1,13 @@
 import { app, ipcMain, BrowserWindow } from 'electron';
 import Store from './utilities/settings-store.js';
 import { debounce } from './utilities/common.js';
-import { browseDirectory, generateUUID, getSettings, setSettings } from './utilities/main-ipc-helper.js';
+import {
+  browseDirectory,
+  generateUUID,
+  getDirectory,
+  getSettings,
+  setSettings
+} from './utilities/main-ipc-helper.js';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -35,7 +41,7 @@ const handleBrowseDirectory = async () => {
   return await browseDirectory(mainWindow);
 }
 
-const handleGetDirectory = (workspaceDir) => {
+const handleGetDirectory = (_event, workspaceDir) => {
   return getDirectory(workspaceDir);
 }
 

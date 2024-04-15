@@ -23,7 +23,11 @@ const StyledMain = styled('main', { shouldForwardProp: (prop) => prop !== 'drawe
   }),
 );
 
-const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspace }) => {
+const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId }) => {
+
+  React.useEffect(() => {
+    console.log("Selected workspace updated in WorkspaceMain");
+  }, [ selectedWorkspaceId ] );
 
   return (
     <>
@@ -33,7 +37,7 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspace }) => {
       >
         <DrawerHeader />
         <Typography fontSize={32}>
-          Workspace: {JSON.stringify(selectedWorkspace)}
+          Workspace: {JSON.stringify(selectedWorkspaceId)}
         </Typography>
         <Typography paragraph>
           This is just a plain old paragraph.

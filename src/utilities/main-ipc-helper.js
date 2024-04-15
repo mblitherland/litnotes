@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 import { dialog } from 'electron';
-import { readdir } from 'fs';
+import fs from 'fs';
 import path from 'path';
 
 const browseDirectory = async (window) => {
@@ -26,7 +26,10 @@ const generateUUID = () => {
 };
 
 const getDirectory = (workspaceDir) => {
-  return readdir(workspaceDir, { withFileTypes: true, recursive: true });
+  console.log("Workspace dir", workspaceDir);
+  const result = fs.readdirSync(workspaceDir, { withFileTypes: true, recursive: true });
+  console.log("result", result);
+  return {};
 }
 
 const getSettings = (store) => {

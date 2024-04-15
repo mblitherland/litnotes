@@ -24,6 +24,7 @@ const Root = () => {
     const savedSettings = await window.electronAPI.setSettings(newSettings);
     setSettings(savedSettings);
   }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

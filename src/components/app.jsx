@@ -17,10 +17,14 @@ const getValidWorkspace = (settings, id) => {
 
 const App = ({ settings, updateSettings }) => {
 
-  const initialWorkspace = getValidWorkspace(settings, settings['lastWorkspace']);
+  const initialWorkspaceId = getValidWorkspace(settings, settings['lastWorkspace']);
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
-  const [selectedWorkspace, setSelectedWorkspace] = React.useState(initialWorkspace);
+  const [selectedWorkspaceId, setSelectedWorkspaceId] = React.useState(initialWorkspaceId);
+
+  React.useEffect(() => {
+    setSelectedWorkspaceId(getValidWorkspace(settings, settings['lastWorkspace']));
+  }, [ settings ]);
 
   const handleDrawerClose = () => {
     setDrawerOpen(false);
@@ -30,8 +34,7 @@ const App = ({ settings, updateSettings }) => {
     setDrawerOpen(true);
   };
 
-  const handleSelectedWorkspace = (id) => {
-    setSelectedWorkspace(getValidWorkspace(settings, id));
+  const handleSelectedWorkspaceId = (id) => {
   }
 
   return (
@@ -49,12 +52,11 @@ const App = ({ settings, updateSettings }) => {
         drawerWidth={drawerWidth}
         settings={settings}
         updateSettings={updateSettings}
-        selectedWorkspace={selectedWorkspace}
-        setSelectedWorkspace={handleSelectedWorkspace} />
+        selectedWorkspaceId={selectedWorkspaceId} />
       <WorkspaceMain
         drawerOpen={drawerOpen}
         drawerWidth={drawerWidth}
-        selectedWorkspace={selectedWorkspace} />
+        selectedWorkspaceId={selectedWorkspaceId} />
     </Box>
   );
 }

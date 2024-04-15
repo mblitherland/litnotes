@@ -9,10 +9,10 @@ import WorkspaceMain from './workspace-main.jsx';
 const drawerWidth = 320;
 
 const getValidWorkspace = (settings, id) => {
-  if (id && id !== "none" && (id in settings['workspaces'])) {
-    return settings['workspaces'][id];
+  if (id && id !== 'none' && (id in settings['workspaces'])) {
+    return id;
   }
-  return {};
+  return 'none';
 }
 
 const App = ({ settings, updateSettings }) => {

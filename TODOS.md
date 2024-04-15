@@ -6,17 +6,18 @@ A list of all the things to do for Litnotes
 
 1) 2024-03-15 Save load modify configuration file
     - If no workspaces are found show "create workspace" dialogue
-    - Deleting a workspace isn't reflected immediately in the settings GUI and it's super annoying. Why does state management hate me?
     - The directory text input should maybe be manually editable
 2) 2024-04-03 Select current workspace form drawer
-    - Remember last workspace selected
-    - Have a select widget to chose current workspace
     - On workspace select get the file tree for the workspaces
     - On application start if there's a last workspace selected get the file tree for that workspace
     - Have a button to refresh the workspace tree
 3) 2024-04-07 Setting within the running app ponderings
     - Hoisting settings piecemeal is kind of a pain in the butt
     - I feel like a settings singleton with convenience methods is a smart thing, but it's not the "react way" tm.
+4) 2024-04-15 Misc ponderings
+    - Directory list should probably exlude non `.md` and `.txt` files. Maybe.
+    - Make drawer side configurable? (Good "M is bored" task).
+    - Make drawer size configurable, but we want to make that interactive with a dragger
 
 ## Bugs
 
@@ -58,4 +59,8 @@ I'm doing a feature branch to see about hoisting settings all the way up and sim
     - Put a "settings" "gear" button on the opening page to manually open and close settings dialogue
         - Have that gear open a configuration screen
     - Load preferences if they exist on application start
-    - Save window size (location?) on close
+    - Save window size (location?, edit: yes) on close
+    - Deleting a workspace isn't reflected immediately in the settings GUI and it's super annoying. Why does state management hate me? (exit: fixed)
+2) 2024-04-03
+    - Remember last workspace selected
+    - Have a select widget to chose current workspace

@@ -1,8 +1,20 @@
 import React from 'react';
 
 import { useTheme } from '@mui/material';
-import { Box, Card, Dialog, Divider, Drawer, IconButton, Slide, Typography } from '@mui/material';
-import { ChevronLeft, ChevronRight, Settings } from '@mui/icons-material';
+
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import Dialog from '@mui/material/Dialog';
+import Divider from '@mui/material/Divider';
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+import Slide from '@mui/material/Slide';
+import Typography from '@mui/material/Typography';
+
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
+import ChevronRight from '@mui/icons-material/ChevronRight';
+import Settings from '@mui/icons-material/Settings.js';
+
 import DrawerHeader from './drawer-header.jsx';
 import SettingsModal from './settings/settings-modal.jsx';
 
@@ -76,7 +88,9 @@ const WorkspaceDrawer = ({ drawerOpen, onDrawerClose, onDrawerOpen, drawerWidth,
               padding: '10px'
             }}
           >
-            Please configure a workspace using the settings button above.
+            Please select a workspace. If you haven't configured
+            any workspaces, you may do so using the settings button
+            above.
           </Card>
         </Box>
       </Drawer>

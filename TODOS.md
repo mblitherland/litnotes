@@ -14,7 +14,12 @@ A list of all the things to do for Litnotes
     - On application start if there's a last workspace selected get the file tree for that workspace
     - Have a button to refresh the workspace tree
 
-Future things to consider
+## Maybe bugs
+
+- it seems like the directory browse window only opens in front of the electron window the first time, but not after that. Maybe it's not being disposed of properly?
+
+## Future things to consider
+
 - Implement content security: https://www.electronjs.org/docs/latest/tutorial/security#1-only-load-secure-content
 - Themes (need a dark mode)
     - There a MUI theme builder here: https://zenoo.github.io/mui-theme-creator/
@@ -27,8 +32,7 @@ Future things to consider
 
 ## Todoings
 
-Working on all the skeleton stuff so I can start adding features.
-- The first pass at the drawer functionality isn't ideal from a react component standpoint. I'd like to break those pieces up more.
+Working on large swaths of very basic functionality. Leaving lots of fun bugs to work on. :)
 
 ## Todones
 

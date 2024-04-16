@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
+
 import WorkspaceBar from './workspace-bar.jsx';
 import WorkspaceDrawer from './workspace-drawer.jsx';
 import WorkspaceMain from './workspace-main.jsx';

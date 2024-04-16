@@ -27,20 +27,27 @@ const generateUUID = () => {
 
 const getDirectory = (workspaceDir) => {
   const listing = fs.readdirSync(workspaceDir, { withFileTypes: true, recursive: true });
-  const result = { workspaceDir, directories: {} };
+  const result = { workspaceDir, directories: { '': { files: [] }} };
+  console.log('workspaceDir', workspaceDir);
   listing.forEach(entry => {
     const relPath = path.relative(workspaceDir, entry.path);
-    if (entry.isDirectory()) {
-      result['directories'][relPath] = { files: [] };
-    } else if (entry.isFile()) {
-      const dirname = path.relative(workspaceDir, path.dirname(entry.path));
-      result['directories'][dirname]['files'].push({ name: entry.name });
+    if (entry.isFile()) {
+      if (!(relPath in result['directories'])) {
+        result['directories'][relPath] = { files: [] };
+      }
+      console.log('paths 1', workspaceDir, ',', entry.path, ',', relPath);
+      result['directories'][relPath]['files'].push({ name: entry.name });
     }
   });
+  console.log("result", result);
   return result;
 }
 
 // For reference this is the format of the getDirectory result:
+// I'm not at all convinced this is a good way to do it, fwiw, storing it as a
+// tree structure will more closely follow how the mui treeview is going to
+// handle it.
+//
 // const sample_result = {
 //   "workspaceDir": "<path>",
 //   "directories": {

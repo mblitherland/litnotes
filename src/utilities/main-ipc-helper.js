@@ -24,19 +24,20 @@ const generateUUID = () => {
   return randomUUID();
 };
 
-const getSetting = (store, _, key) => {
-  return store.get(key);
+const getSettings = (store) => {
+  return store.getAll();
 }
 
-const setSetting = (store, _, key, value) => {
-  console.log(">>> Saving user settings for: '"+key+"'");
-  store.set(key, value);
+const setSettings = (store, _, newSettings) => {
+  for (var key in ['themeName', 'lastWorkspace', 'drawer', 'workspaces', 'windowBounds', 'windowPosition']) {
+    store.set(key, newSettings[key]);
+  }
+  store.save();
 }
-
 
 export { 
   browseDirectory,
   generateUUID,
-  getSetting,
-  setSetting
+  getSettings,
+  setSettings
 };

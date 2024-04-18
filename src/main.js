@@ -82,8 +82,8 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   ipcMain.handle('file:browseDirectory', handleBrowseDirectory);
-  ipcMain.handle('store:getSetting', handleGetSetting);
-  ipcMain.handle('store:setSetting', handleSetSetting);
+  ipcMain.handle('store:getSettings', handleGetSetting);
+  ipcMain.handle('store:setSettings', handleSetSetting);
   ipcMain.handle('util:generateUUID', generateUUID);
   mainWindow = createWindow();
 });

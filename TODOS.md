@@ -18,6 +18,7 @@ A list of all the things to do for Litnotes
     - Directory list should probably exlude non `.md` and `.txt` files. Maybe.
     - Make drawer side configurable? (Good "M is bored" task).
     - Make drawer size configurable, but we want to make that interactive with a dragger
+    - Directory list might be a bit funky for empty directories
 
 ## Bugs
 

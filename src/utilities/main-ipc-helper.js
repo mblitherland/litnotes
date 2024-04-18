@@ -15,9 +15,9 @@ const browseDirectory = async (window) => {
       result['success'] = true;
     }
   } catch (error) {
-    console.error("Error on select dialog", error);
+    console.error('Error on select dialog', error);
   }
-  console.log(">>> Result of directory browse: '"+JSON.stringify(result)+"'");
+  console.log('Result of directory browse.', JSON.stringify(result));
   return result;
 }
 
@@ -27,37 +27,30 @@ const generateUUID = () => {
 
 const getDirectory = (workspaceDir) => {
   const listing = fs.readdirSync(workspaceDir, { withFileTypes: true, recursive: true });
-  const result = { workspaceDir, directories: { '': { files: [] }} };
-  console.log('workspaceDir', workspaceDir);
+  const tree = {};
   listing.forEach(entry => {
-    const relPath = path.relative(workspaceDir, entry.path);
-    if (entry.isFile()) {
-      if (!(relPath in result['directories'])) {
-        result['directories'][relPath] = { files: [] };
-      }
-      console.log('paths 1', workspaceDir, ',', entry.path, ',', relPath);
-      result['directories'][relPath]['files'].push({ name: entry.name });
+    if (entry.isFile() || entry.isDirectory()) {
+      const relPath = path.relative(workspaceDir, entry.path);
+      populateChildren(relPath, entry.name, tree);
     }
   });
-  console.log("result", result);
-  return result;
+  return tree;
 }
 
-// For reference this is the format of the getDirectory result:
-// I'm not at all convinced this is a good way to do it, fwiw, storing it as a
-// tree structure will more closely follow how the mui treeview is going to
-// handle it.
-//
-// const sample_result = {
-//   "workspaceDir": "<path>",
-//   "directories": {
-//     "/<relative path>/": {
-//       "files": [
-//         { "name": "<file name>" }
-//       ]
-//     }
-//   }
-// };
+const populateChildren = (relPath, name, top) => {
+  const list = relPath.split(path.sep);
+  var current = top;
+  list.forEach(entry => {
+    if (!(entry in current)) {
+      // If the entry really is a directory it should have already been set
+      current[entry] = { type: 'dir', children: {} };
+    }
+    current = current[entry];
+  });
+  current['children'][name] = {
+    type: 'file'
+  };
+}
 
 const getSettings = (store) => {
   return store.getAll();

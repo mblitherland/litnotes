@@ -14,10 +14,14 @@ A list of all the things to do for Litnotes
     - On workspace select get the file tree for the workspaces
     - On application start if there's a last workspace selected get the file tree for that workspace
     - Have a button to refresh the workspace tree
+3) 2024-04-07 Setting within the running app ponderings
+    - Hoisting settings piecemeal is kind of a pain in the butt
+    - I feel like a settings singleton with convenience methods is a smart thing, but it's not the "react way" tm.
 
-## Maybe bugs
+## Bugs
 
-- it seems like the directory browse window only opens in front of the electron window the first time, but not after that. Maybe it's not being disposed of properly?
+- It seems like the directory browse window only opens in front of the electron window the first time, but not after that. Maybe it's not being disposed of properly?
+- When you delete a workspace form the settings page it's really deleted, but doesn't leave the list until some other setting changes. I haven't figured a way to get this to work properly, even with a `useEffect`.
 
 ## Future things to consider
 
@@ -34,6 +38,8 @@ A list of all the things to do for Litnotes
 ## Todoings
 
 Working on large swaths of very basic functionality. Leaving lots of fun bugs to work on. :)
+
+I'm doing a feature branch to see about hoisting settings all the way up and simplifying. That might fix the issue about workspace lists
 
 ## Todones
 

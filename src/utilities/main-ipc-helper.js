@@ -27,7 +27,7 @@ const generateUUID = () => {
 
 const getDirectory = (workspaceDir) => {
   const listing = fs.readdirSync(workspaceDir, { withFileTypes: true, recursive: true });
-  const tree = {};
+  const tree = { type: 'workspace', children: {} };
   listing.forEach(entry => {
     if (entry.isFile() || entry.isDirectory()) {
       const relPath = path.relative(workspaceDir, entry.path);
@@ -39,17 +39,19 @@ const getDirectory = (workspaceDir) => {
 
 const populateChildren = (relPath, name, top) => {
   const list = relPath.split(path.sep);
-  var current = top;
+  var current = top['children'];
   list.forEach(entry => {
-    if (!(entry in current)) {
+    if (entry !== "") {
       // If the entry really is a directory it should have already been set
       current[entry] = { type: 'dir', children: {} };
+      current = current[entry]['children'];
     }
-    current = current[entry];
   });
-  current['children'][name] = {
-    type: 'file'
-  };
+  if (!(name in current)) {
+    current[name] = {
+      type: 'file'
+    };
+  }
 }
 
 const getSettings = (store) => {

@@ -15,6 +15,7 @@ import Slide from '@mui/material/Slide';
 
 import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRight from '@mui/icons-material/ChevronRight';
+import Replay from '@mui/icons-material/Replay';
 import Settings from '@mui/icons-material/Settings.js';
 
 import DrawerHeader from './drawer-header.jsx';
@@ -48,6 +49,13 @@ const WorkspaceDrawer = ({
   }
 
   React.useEffect(() => {
+    // TODO: See if there's a better way to do this.
+    if (!('type' in workspaceTree)) {
+      handleLoadWorkspace(selectedWorkspaceId);
+    }
+  });
+
+  React.useEffect(() => {
     console.log("Workspace tree updated in WorkspaceDrawer");
   }, [ workspaceTree] );
 
@@ -55,9 +63,11 @@ const WorkspaceDrawer = ({
     const workspaceId = event.target.value;
     settings['lastWorkspace'] = workspaceId;
     updateSettings(settings);
+    await handleLoadWorkspace(workspaceId);
+  }
 
+  const handleLoadWorkspace = async (workspaceId) => {
     const dir = settings['workspaces'][workspaceId]['directory'];
-    console.log("Selected dir", dir);
     const workspaceDirectory = await window.electronAPI.getDirectory(dir);
     console.log("Got dir", workspaceDirectory);
     setWorkspaceTree(workspaceDirectory);
@@ -81,9 +91,14 @@ const WorkspaceDrawer = ({
         onClose={onDrawerClose}
       >
         <DrawerHeader>
-          <IconButton onClick={handleSettingsOpen}>
-            <Settings />
-          </IconButton>
+          <Box>
+            <IconButton onClick={handleSettingsOpen}>
+              <Settings />
+            </IconButton>
+            <IconButton onClick={() => handleLoadWorkspace(selectedWorkspaceId)}>
+              <Replay />
+            </IconButton>
+          </Box>
           <IconButton onClick={onDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>

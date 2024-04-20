@@ -28,11 +28,16 @@ const getSettings = (store) => {
   return store.getAll();
 }
 
-const setSettings = (store, _, newSettings) => {
+const setSettings = (store, newSettings) => {
+  console.log("saving settings", JSON.stringify(newSettings));
   for (var key in ['themeName', 'lastWorkspace', 'drawer', 'workspaces', 'windowBounds', 'windowPosition']) {
-    store.set(key, newSettings[key]);
+    if (key in newSettings) {
+      console.log("saving key", key, "value", value);
+      store.set(key, newSettings[key]);
+    }
   }
   store.save();
+  return store.getAll();
 }
 
 export { 

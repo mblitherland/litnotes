@@ -20,6 +20,7 @@ import Settings from '@mui/icons-material/Settings.js';
 
 import DrawerHeader from './drawer-header.jsx';
 import SettingsModal from './settings/settings-modal.jsx';
+import WorkspaceTree from './workspace-tree.jsx';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -70,8 +71,24 @@ const WorkspaceDrawer = ({
   const handleLoadWorkspace = async (workspaceId) => {
     const dir = settings['workspaces'][workspaceId]['directory'];
     const workspaceDirectory = await window.electronAPI.getDirectory(dir);
-    console.log("Got dir", workspaceDirectory);
     setWorkspaceTree(workspaceDirectory);
+  }
+
+  const ShowNoWorkspaceSelected = () => {
+    if (selectedWorkspaceId === 'none')
+    return
+      <>
+        <Card
+          sx={{
+            marginTop: '10px',
+            padding: '10px'
+          }}
+        >
+          Please select a workspace. If you haven't configured
+          any workspaces, you may do so using the settings button
+          above.
+        </Card>
+      </>;
   }
 
   return (
@@ -127,16 +144,8 @@ const WorkspaceDrawer = ({
               }
             </Select>
           </FormControl>
-          <Card
-            sx={{
-              marginTop: '10px',
-              padding: '10px'
-            }}
-          >
-            Please select a workspace. If you haven't configured
-            any workspaces, you may do so using the settings button
-            above.
-          </Card>
+          <ShowNoWorkspaceSelected />
+          <WorkspaceTree workspaceTree={workspaceTree} />
         </Box>
       </Drawer>
       <Dialog

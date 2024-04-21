@@ -50,7 +50,8 @@ const WorkspaceDrawer = ({
 
   React.useEffect(() => {
     // TODO: See if there's a better way to do this.
-    if (!('type' in workspaceTree)) {
+    if (!('type' in workspaceTree) && !(selectedWorkspaceId === 'none')) {
+      // This performs the initial load of the selected workspace
       handleLoadWorkspace(selectedWorkspaceId);
     }
   });

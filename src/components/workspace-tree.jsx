@@ -3,6 +3,8 @@ import React from 'react';
 import { TreeView } from '@mui/x-tree-view/TreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 
+import Edit from '@mui/icons-material/Edit';
+import Folder from '@mui/icons-material/Folder';
 
 
 const WorkspaceTree = ({ workspaceTree }) => {
@@ -15,24 +17,28 @@ const WorkspaceTree = ({ workspaceTree }) => {
       return;
     }
     console.log("tree >>>", workspaceTree);
-    Object.entries(workspaceTree['children']).map(([key, val]) => {
-      // console.log("k", key, "v", val);
-    });
+    // Object.entries(workspaceTree['children']).map(([key, val]) => {
+    //   console.log("k", key, "v", val);
+    // });
   }, [ workspaceTree ]);
 
   const DirNode = ({ name, subtree }) => {
     var length = nodeIndexes.push(subtree['path']);
 
     return (
-      <TreeItem nodeId={(length - 1).toString()} label={name}>
-
+      <TreeItem itemId={(length - 1).toString()} label={name}>
+        {
+          Object.entries(subtree['children']).map(([name, node]) =>
+            <Node key={name} name={name} node={node} />
+          )
+        }
       </TreeItem>
     );
   };
 
   const FileNode = ({ name, node }) => {
     var length = nodeIndexes.push(node['path']);
-    return <TreeItem nodeId={(length - 1).toString()} label={name} />;
+    return <TreeItem itemId={(length - 1).toString()} label={name} />;
   }
 
   const Node = ({ name, node }) => {

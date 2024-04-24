@@ -43,7 +43,7 @@
     "@mdxeditor/editor": "^2.16.0",
     "@mui/icons-material": "^5.15.13",
     "@mui/material": "^5.15.13",
-    "@mui/x-tree-view": "^6.17.0",
+    "@mui/x-tree-view": "^7.3.0",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

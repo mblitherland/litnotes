@@ -27,30 +27,39 @@ const generateUUID = () => {
 
 const getDirectory = (workspaceDir) => {
   const listing = fs.readdirSync(workspaceDir, { withFileTypes: true, recursive: true });
-  const tree = { type: 'workspace', children: {} };
+  const tree = { type: 'workspace', path: workspaceDir, children: {} };
   listing.forEach(entry => {
     if (entry.isFile() || entry.isDirectory()) {
-      const relPath = path.relative(workspaceDir, entry.path);
-      populateChildren(relPath, entry.name, tree);
+      populateChildren(workspaceDir, entry, tree);
     }
   });
   return tree;
 }
 
-const populateChildren = (relPath, name, top) => {
+const populateChildren = (workspaceDir, entry, top) => {
+  const relPath = path.relative(workspaceDir, entry.path);
   const list = relPath.split(path.sep);
   var current = top['children'];
-  list.forEach(entry => {
-    if (entry !== "") {
-      // If the entry really is a directory it should have already been set
-      current[entry] = { type: 'dir', children: {} };
-      current = current[entry]['children'];
+  var rebuild = workspaceDir;
+  list.forEach(subdir => {
+    if (subdir !== "") {
+      rebuild = path.join(rebuild, subdir);
+      // If the entry really is a directory it could have already been set
+      if (!(subdir in current)) {
+        current[subdir] = { type: 'dir', path: rebuild, children: {} };
+      }
+      current = current[subdir]['children'];
     }
   });
-  if (!(name in current)) {
-    current[name] = {
-      type: 'file'
+  if (!(entry.name in current)) {
+    current[entry.name] = {
+      type: entry.isFile() ? 'file' : 'dir',
+      path: path.join(entry.path, entry.name),
+      ext: path.extname(entry.name)
     };
+    if (entry.isDirectory()) {
+      current[entry.name]['children'] = {};
+    }
   }
 }
 

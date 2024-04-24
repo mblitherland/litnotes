@@ -54,7 +54,8 @@ const populateChildren = (workspaceDir, entry, top) => {
   if (!(entry.name in current)) {
     current[entry.name] = {
       type: entry.isFile() ? 'file' : 'dir',
-      path: path.join(entry.path, entry.name)
+      path: path.join(entry.path, entry.name),
+      ext: path.extname(entry.name)
     };
     if (entry.isDirectory()) {
       current[entry.name]['children'] = {};

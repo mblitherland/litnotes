@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TreeView } from '@mui/x-tree-view/TreeView';
+import { SimpleTreeView } from '@mui/x-tree-view/SimpleTreeView';
 import { TreeItem } from '@mui/x-tree-view/TreeItem';
 
 // TODO: I'd like custom icons for folders and markdown files
@@ -44,9 +44,9 @@ const WorkspaceTree = ({ workspaceTree }) => {
 
   return (
     <>
-      <TreeView sx={{}}>
+      <SimpleTreeView sx={{}}>
         <Node name="Workspace" node={workspaceTree} />
-      </TreeView>
+      </SimpleTreeView>
     </>
   )
 }

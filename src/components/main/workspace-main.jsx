@@ -2,7 +2,7 @@ import React from 'react';
 
 import { styled } from '@mui/material';
 import { Typography } from '@mui/material';
-import DrawerHeader from './drawer-header.jsx';
+import DrawerHeader from '../drawer/drawer-header.jsx';
 
 const StyledMain = styled('main', { shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth' })(
   ({ theme, drawerOpen, drawerWidth }) => ({

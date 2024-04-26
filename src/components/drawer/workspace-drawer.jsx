@@ -19,7 +19,7 @@ import Replay from '@mui/icons-material/Replay';
 import Settings from '@mui/icons-material/Settings.js';
 
 import DrawerHeader from './drawer-header.jsx';
-import SettingsModal from './settings/settings-modal.jsx';
+import SettingsModal from '../settings/settings-modal.jsx';
 import WorkspaceTree from './workspace-tree.jsx';
 
 const Transition = React.forwardRef(function Transition(props, ref) {

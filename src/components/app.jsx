@@ -3,8 +3,8 @@ import React from 'react';
 import Box from '@mui/material/Box';
 
 import WorkspaceBar from './workspace-bar.jsx';
-import WorkspaceDrawer from './workspace-drawer.jsx';
-import WorkspaceMain from './workspace-main.jsx';
+import WorkspaceDrawer from './drawer/workspace-drawer.jsx';
+import WorkspaceMain from './main/workspace-main.jsx';
 
 const drawerWidth = 320;
 

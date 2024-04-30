@@ -2,11 +2,12 @@ import React from 'react';
 
 import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
-// import Tab from '@mui/material/Tab'
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 
 import DrawerHeader from '../drawer/drawer-header.jsx';
+import EditorPanel from './EditorPanel.jsx';
+import EditorTab from './EditorTab.jsx';
 
 const StyledMain = styled('div', { shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth' })(
   ({ theme, drawerOpen, drawerWidth }) => ({
@@ -33,7 +34,7 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
     console.log("Selected workspace updated in WorkspaceMain");
   }, [ selectedWorkspaceId ] );
 
-  const tabClosed = () => {
+  const tabClosed = (index) => {
     // Remove tab, save list of tabs to the settings
     // call removeTab
   };

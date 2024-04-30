@@ -1,9 +1,7 @@
 import React from 'react';
 
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
 
-import TabPanel from './main/TabPanel.jsx';
 import WorkspaceBar from './workspace-bar.jsx';
 import WorkspaceDrawer from './drawer/workspace-drawer.jsx';
 import WorkspaceMain from './main/workspace-main.jsx';
@@ -20,8 +18,7 @@ const getValidWorkspace = (settings, id) => {
 const getBlankTab = () => {
   return [
     {
-      tab: <Tab label="Select a file from your workspace" id="main-tabs--1" />,
-      panel: <TabPanel />
+      tabLabel: "Select a file from your workspace"
     }
   ]
 }

@@ -1,13 +1,17 @@
 import React from 'react';
 
 import { styled } from '@mui/material';
-import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+// import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
+
 import DrawerHeader from '../drawer/drawer-header.jsx';
 
-const StyledMain = styled('main', { shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth' })(
+const StyledMain = styled('div', { shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth' })(
   ({ theme, drawerOpen, drawerWidth }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    width: '100%',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -23,11 +27,21 @@ const StyledMain = styled('main', { shouldForwardProp: (prop) => prop !== 'drawe
   }),
 );
 
-const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId }) => {
+const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, removeTab }) => {
 
   React.useEffect(() => {
     console.log("Selected workspace updated in WorkspaceMain");
   }, [ selectedWorkspaceId ] );
+
+  const tabClosed = () => {
+    // Remove tab, save list of tabs to the settings
+    // call removeTab
+  };
+
+  const tabSelected = (index) => {
+    // Set the selected index to the provided index
+    // Save selected tabl to the settings
+  };
 
   return (
     <>
@@ -36,14 +50,24 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId }) => {
         drawerWidth={drawerWidth}
       >
         <DrawerHeader />
-        <Typography fontSize={32}>
+        <Box sx={{ width: "100%" }}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <Tabs>
+              { tabs[0]['tab'] }
+              { 
+                /* tabs.forEach((pair) => { 
+                  console.log('p', pair['tab']);
+                  return ( pair['tab'] );
+                }) */
+              }
+            </Tabs>
+          </Box>
+        </Box>
+        <Box sx={{ width: "100%" }}>
+          { tabs[0]['panel'] }
+        </Box>
+        <Typography sx={{ margin: '1em' }} fontSize={32}>
           Workspace: {JSON.stringify(selectedWorkspaceId)}
-        </Typography>
-        <Typography paragraph>
-          This is just a plain old paragraph.
-        </Typography>
-        <Typography fontSize={64} color="grey">
-          This is a fancy paragraph.
         </Typography>
       </StyledMain>
     </>

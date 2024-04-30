@@ -34,6 +34,8 @@ const WorkspaceDrawer = ({
   settings,
   updateSettings,
   selectedWorkspaceId,
+  tabs,
+  addTab,
   ...props
 }) => {
   const theme = useTheme();

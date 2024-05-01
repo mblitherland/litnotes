@@ -53,19 +53,25 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
         <DrawerHeader />
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <Tabs>
-              { tabs[0]['tab'] }
+            <Tabs
+              value={0} 
+              variant="scrollable"
+              scrollButtons="auto"
+            >
               { 
-                /* tabs.forEach((pair) => { 
-                  console.log('p', pair['tab']);
-                  return ( pair['tab'] );
-                }) */
+                Object.entries(tabs).map(([index, value]) => (
+                  <EditorTab key={"tab-"+index} index={index} tabLabel={value['tabLabel']} />
+                ))
               }
             </Tabs>
           </Box>
         </Box>
         <Box sx={{ width: "100%" }}>
-          { tabs[0]['panel'] }
+          {
+            Object.entries(tabs).map(([index, value]) => (
+              <EditorPanel key={"panel-"+index} index={index} />
+            ))
+          }
         </Box>
         <Typography sx={{ margin: '1em' }} fontSize={32}>
           Workspace: {JSON.stringify(selectedWorkspaceId)}

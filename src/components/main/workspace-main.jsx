@@ -6,8 +6,8 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 
 import DrawerHeader from '../drawer/drawer-header.jsx';
-import EditorPanel from './EditorPanel.jsx';
-import EditorTab from './EditorTab.jsx';
+import EditorPanel from './editor-panel.jsx';
+import EditorTab from './editor-tab.jsx';
 
 const StyledMain = styled('div', { shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth' })(
   ({ theme, drawerOpen, drawerWidth }) => ({

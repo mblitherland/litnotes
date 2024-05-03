@@ -45,13 +45,29 @@ const App = ({ settings, updateSettings }) => {
     setDrawerOpen(true);
   };
 
-  const handleTabsAdd = () => {
-
-  };
-
   const handleTabsRemove = (index) => {
-
+    console.log("In handleTabsRemove", index);
+    // TODO: If we've removed the last tab
+    // setTabs(getBlankTab());
   };
+
+  const handleFileSelected = (node) => {
+    console.log("Im handleFileSelected", node);
+    const allPaths = tabs.map(e => e.tabSource);
+    if (!allPaths.includes(node['path'])) {
+      // TODO: Check that it's a .md or .txt?
+      // Strip out just the base and ext, but they'll have to be added to the node by getdir
+      tabs.push({
+        tabLabel: node['base'],
+        tabText: false,
+        tabSource: node['path']
+      });
+      setTabs(tabs);
+
+      // TODO: working above
+    }
+    console.log("All paths:", allPaths);
+  }
 
   return (
     <Box
@@ -70,7 +86,7 @@ const App = ({ settings, updateSettings }) => {
         updateSettings={updateSettings}
         selectedWorkspaceId={selectedWorkspaceId}
         tabs={tabs}
-        addTab={handleTabsAdd} />
+        fileSelected={handleFileSelected} />
       <WorkspaceMain
         drawerOpen={drawerOpen}
         drawerWidth={drawerWidth}

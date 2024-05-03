@@ -7,7 +7,7 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 // import Edit from '@mui/icons-material/Edit';
 // import Folder from '@mui/icons-material/Folder';
 
-const WorkspaceTree = ({ workspaceTree }) => {
+const WorkspaceTree = ({ workspaceTree, fileSelected }) => {
 
   const nodeIndexes = [];
 
@@ -27,7 +27,7 @@ const WorkspaceTree = ({ workspaceTree }) => {
 
   const FileNode = ({ name, node }) => {
     var length = nodeIndexes.push(node['path']);
-    return <TreeItem itemId={(length - 1).toString()} label={name} />;
+    return <TreeItem itemId={(length - 1).toString()} label={name} onClick={() => fileSelected(node)} />;
   }
 
   const Node = ({ name, node }) => {

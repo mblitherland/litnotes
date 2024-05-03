@@ -3,7 +3,6 @@ import React from 'react';
 import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
 
 import DrawerHeader from '../drawer/drawer-header.jsx';
 import EditorPanel from './editor-panel.jsx';
@@ -69,13 +68,10 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
         <Box sx={{ width: "100%" }}>
           {
             Object.entries(tabs).map(([index, value]) => (
-              <EditorPanel key={"panel-"+index} index={index} />
+              <EditorPanel key={"panel-"+index} index={index} tabText={value['tabText']} tabSource={value['tabSource']} />
             ))
           }
         </Box>
-        <Typography sx={{ margin: '1em' }} fontSize={32}>
-          Workspace: {JSON.stringify(selectedWorkspaceId)}
-        </Typography>
       </StyledMain>
     </>
   );

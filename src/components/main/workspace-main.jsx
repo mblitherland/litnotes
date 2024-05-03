@@ -31,14 +31,19 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
 
   React.useEffect(() => {
     console.log("Selected workspace updated in WorkspaceMain");
+    // TODO: pick the selected tab from the settings, for now set to 0
+    setSelectedTab(0);
   }, [ selectedWorkspaceId ] );
+
+  const [ selectedTab, setSelectedTab ] = React.useState(0);
 
   const tabClosed = (index) => {
     // Remove tab, save list of tabs to the settings
     // call removeTab
   };
 
-  const tabSelected = (index) => {
+  const tabSelected = (_event, _other) => {
+    console.log("In tab selected", _event, _other);
     // Set the selected index to the provided index
     // Save selected tabl to the settings
   };
@@ -53,9 +58,10 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
-              value={0} 
+              value={selectedTab} 
               variant="scrollable"
               scrollButtons="auto"
+              onChange={tabSelected}
             >
               { 
                 Object.entries(tabs).map(([index, value]) => (

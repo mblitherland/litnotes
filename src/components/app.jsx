@@ -18,7 +18,9 @@ const getValidWorkspace = (settings, id) => {
 const getBlankTab = () => {
   return [
     {
-      tabLabel: "Select a file from your workspace"
+      tabLabel: "No files open",
+      tabText: "Please select a file from your workspace.",
+      tabSource: false // This would be the file path
     }
   ]
 }

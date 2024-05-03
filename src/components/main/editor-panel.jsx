@@ -3,12 +3,18 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const EditorPanel = ({ index, tabInfo }) => {
+const EditorPanel = ({ index, tabText, tabSource }) => {
 
   return (
     <Box sx={{ padding : 2 }}>
-      <Typography >This is an empty TabPanel</Typography>
-      <Typography >My index is {index}</Typography>
+      { 
+        tabSource && <Typography>This will be an MDX panel containing {tabSource}</Typography>
+      }
+      {
+        tabText && <Typography>{tabText}</Typography>
+      }
+      {/* TODO: this is just while we're developing the tabs */}
+      <Typography variant="caption" sx={{ opacity: '50%' }}>My index is {index}</Typography>
     </Box>
   );
 };

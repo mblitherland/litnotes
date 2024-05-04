@@ -2,11 +2,11 @@ import React from 'react';
 
 import { styled } from '@mui/material';
 import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
 import DrawerHeader from '../drawer/drawer-header.jsx';
 import EditorPanel from './editor-panel.jsx';
-import EditorTab from './editor-tab.jsx';
 
 const StyledMain = styled('div', { shouldForwardProp: (prop) => prop !== 'drawerOpen' && prop !== 'drawerWidth' })(
   ({ theme, drawerOpen, drawerWidth }) => ({
@@ -66,7 +66,7 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
             >
               { 
                 Object.entries(tabs).map(([index, value]) => (
-                  <EditorTab key={"tab-"+index} index={index} tabLabel={value['tabLabel']} />
+                  <Tab label={value['tabLabel']} key={index} id={"editor-tab-"+index} />
                 ))
               }
             </Tabs>

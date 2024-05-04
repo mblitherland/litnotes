@@ -42,10 +42,11 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
     // call removeTab
   };
 
-  const tabSelected = (_event, _other) => {
-    console.log("In tab selected", _event, _other);
+  const tabSelected = (_event, newValue) => {
+    console.log("In tab selected", _event, newValue);
     // Set the selected index to the provided index
-    // Save selected tabl to the settings
+    setSelectedTab(newValue);
+    // TODO: Save selected tabl to the settings
   };
 
   return (
@@ -59,9 +60,9 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
               value={selectedTab} 
+              onChange={tabSelected}
               variant="scrollable"
               scrollButtons="auto"
-              onChange={tabSelected}
             >
               { 
                 Object.entries(tabs).map(([index, value]) => (

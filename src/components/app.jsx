@@ -53,20 +53,17 @@ const App = ({ settings, updateSettings }) => {
 
   const handleFileSelected = (node) => {
     console.log("Im handleFileSelected", node);
-    const allPaths = tabs.map(e => e.tabSource);
+    const allPaths = tabs.map(n => n.tabSource);
     if (!allPaths.includes(node['path'])) {
       // TODO: Check that it's a .md or .txt?
-      // Strip out just the base and ext, but they'll have to be added to the node by getdir
       tabs.push({
         tabLabel: node['base'],
         tabText: false,
         tabSource: node['path']
       });
-      setTabs(tabs);
-
-      // TODO: working above
+      setTabs(tabs.filter((n) => n.tabSource !== false));
     }
-    console.log("All paths:", allPaths);
+    console.log("All paths:", tabs);
   }
 
   return (

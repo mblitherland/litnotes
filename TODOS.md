@@ -9,7 +9,7 @@ A list of all the things to do for Litnotes
     - The directory text input should maybe be manually editable
 4) 2024-04-15 Misc ponderings
     - Directory list should probably exlude non `.md` and `.txt` files. Maybe.
-        - Put a toggle for this
+        - Put a toggle for this?
     - Make drawer side configurable? (Good "M is bored" task).
     - Make drawer size configurable, but we want to make that interactive with a dragger
     - Directory list might be a bit funky for empty directories
@@ -25,12 +25,13 @@ A list of all the things to do for Litnotes
 
 - It seems like the directory browse window only opens in front of the electron window the first time, but not after that. Maybe it's not being disposed of properly?
 - Some large workspaces can have errors loading that I don't understand.
-- itemIds in the tree view being common between different trees leads to odd behavior
+- itemIds in the tree view being common between different trees leads to odd behavior.
+- If you remove a workspace that's being worked on it should probably clear the drawer and main.
 
 ## Future things to consider
 
 - Implement content security: https://www.electronjs.org/docs/latest/tutorial/security#1-only-load-secure-content
-- Themes (need a dark mode)
+- Themes (need a dark mode, edit: have a dark mode!)
     - There a MUI theme builder here: https://zenoo.github.io/mui-theme-creator/
     - Currently in theme.jsx you can change the mode from 'dark' to 'light'
     - Can we detect from electron if the OS is using light/dark mode?

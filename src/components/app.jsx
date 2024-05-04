@@ -34,9 +34,12 @@ const App = ({ settings, updateSettings }) => {
   const [ tabs, setTabs ] = React.useState(getBlankTab());
 
   React.useEffect(() => {
-    setSelectedWorkspaceId(getValidWorkspace(settings, settings['lastWorkspace']));
-    // TODO: Restore previously opened tabs for workspace
-    setTabs(getBlankTab());
+    // Settings could change for a few reasons and resetting the workspace shouldn't always happen
+    if (selectedWorkspaceId !== settings['lastWorkspace']) {
+      setSelectedWorkspaceId(getValidWorkspace(settings, settings['lastWorkspace']));
+      // TODO: Restore previously opened tabs for workspace
+      setTabs(getBlankTab());
+    }
   }, [ settings ]);
 
   const handleDrawerClose = () => {

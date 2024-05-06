@@ -20,6 +20,7 @@ const getBlankTab = () => {
     {
       tabLabel: "No files open",
       tabText: "Please select a file from your workspace.",
+      tabType: null,
       tabSource: false // This would be the file path
     }
   ]
@@ -64,7 +65,8 @@ const App = ({ settings, updateSettings }) => {
       tabs.push({
         tabLabel: node['base'],
         tabText: false,
-        tabSource: node['path']
+        tabSource: node['path'],
+        tabType: node['ext']
       });
       setTabs(tabs.filter((n) => n.tabSource !== false));
     }

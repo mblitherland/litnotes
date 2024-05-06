@@ -43,10 +43,10 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
   };
 
   const tabSelected = (_event, newValue) => {
-    console.log("In tab selected", _event, newValue);
+    console.log("In tab selected", newValue);
     // Set the selected index to the provided index
-    setSelectedTab(newValue);
-    // TODO: Save selected tabl to the settings
+    setSelectedTab(parseInt(newValue));
+    // TODO: Save selected tab to the settings
   };
 
   return (
@@ -75,7 +75,13 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
         <Box sx={{ width: "100%" }}>
           {
             Object.entries(tabs).map(([index, value]) => (
-              <EditorPanel key={"panel-"+index} index={index} tabText={value['tabText']} tabSource={value['tabSource']} />
+              <EditorPanel
+                key={"panel-"+index}
+                index={parseInt(index)}
+                tabText={value['tabText']}
+                tabSource={value['tabSource']}
+                tabType={value['tabType']}
+                visible={selectedTab} />
             ))
           }
         </Box>

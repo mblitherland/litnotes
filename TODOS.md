@@ -20,6 +20,8 @@ A list of all the things to do for Litnotes
     - Save on lengthy debounce
     - Save on tab switch and close and window close
     - Manual save for those that feel like they must push a button
+6) 2024-05-07 More misc
+    - Don't show hidden/dotfiles in workspace (provide a toggle)
 
 ## Bugs
 

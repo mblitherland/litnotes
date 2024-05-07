@@ -27,12 +27,19 @@ const StyledMain = styled('div', { shouldForwardProp: (prop) => prop !== 'drawer
   }),
 );
 
-const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, removeTab }) => {
+const WorkspaceMain =  ({
+  drawerOpen,
+  drawerWidth,
+  selectedWorkspaceId,
+  tabs,
+  removeTab,
+  settings,
+  updateSettings
+}) => {
 
   React.useEffect(() => {
     console.log("Selected workspace updated in WorkspaceMain");
-    // TODO: pick the selected tab from the settings, for now set to 0
-    setSelectedTab(0);
+    setSelectedTab(settings['workspaces'][selectedWorkspaceId]['selectedTab'] || 0);
   }, [ selectedWorkspaceId ] );
 
   const [ selectedTab, setSelectedTab ] = React.useState(0);
@@ -43,10 +50,10 @@ const WorkspaceMain =  ({ drawerOpen, drawerWidth, selectedWorkspaceId, tabs, re
   };
 
   const tabSelected = (_event, newValue) => {
-    console.log("In tab selected", newValue);
     // Set the selected index to the provided index
     setSelectedTab(parseInt(newValue));
-    // TODO: Save selected tab to the settings
+    settings['workspaces'][selectedWorkspaceId]['selectedTab'] = parseInt(newValue)
+    updateSettings(settings);
   };
 
   return (

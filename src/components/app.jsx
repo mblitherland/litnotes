@@ -37,9 +37,13 @@ const App = ({ settings, updateSettings }) => {
   React.useEffect(() => {
     // Settings could change for a few reasons and resetting the workspace shouldn't always happen
     if (selectedWorkspaceId !== settings['lastWorkspace']) {
-      setSelectedWorkspaceId(getValidWorkspace(settings, settings['lastWorkspace']));
-      // TODO: Restore previously opened tabs for workspace
-      setTabs(getBlankTab());
+      const workspaceId = getValidWorkspace(settings, settings['lastWorkspace']);
+      setSelectedWorkspaceId(workspaceId);
+      if (settings['workspaces'][workspaceId]['tabs'] && settings['workspaces'][workspaceId]['tabs'].length > 0) {
+        setTabs(settings['workspaces'][workspaceId]['tabs']);
+      } else {
+        setTabs(getBlankTab());
+      }
     }
   }, [ settings ]);
 
@@ -68,7 +72,9 @@ const App = ({ settings, updateSettings }) => {
         tabSource: node['path'],
         tabType: node['ext']
       });
-      setTabs(tabs.filter((n) => n.tabSource !== false));
+      settings['workspaces'][selectedWorkspaceId]['tabs'] = tabs.filter((n) => n.tabSource !== false);
+      settings['workspaces'][selectedWorkspaceId]['selectedTab'] = tabs.length - 1;
+      updateSettings(settings);
     }
     console.log("All paths:", tabs);
   }
@@ -96,7 +102,9 @@ const App = ({ settings, updateSettings }) => {
         drawerWidth={drawerWidth}
         selectedWorkspaceId={selectedWorkspaceId}
         tabs={tabs}
-        removeTab={handleTabsRemove} />
+        removeTab={handleTabsRemove}
+        settings={settings}
+        updateSettings={updateSettings} />
     </Box>
   );
 }

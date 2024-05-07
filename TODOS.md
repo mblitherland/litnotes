@@ -26,6 +26,7 @@ A list of all the things to do for Litnotes
 - It seems like the directory browse window only opens in front of the electron window the first time, but not after that. Maybe it's not being disposed of properly?
 - Some large workspaces can have errors loading that I don't understand.
 - itemIds in the tree view being common between different trees leads to odd behavior.
+    - probably just use the relative path + name for the id. I don't know there's a restriction on the string used
 - If you remove a workspace that's being worked on it should probably clear the drawer and main.
 
 ## Future things to consider

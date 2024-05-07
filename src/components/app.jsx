@@ -73,7 +73,7 @@ const App = ({ settings, updateSettings }) => {
         tabType: node['ext']
       });
       settings['workspaces'][selectedWorkspaceId]['tabs'] = tabs.filter((n) => n.tabSource !== false);
-      settings['workspaces'][selectedWorkspaceId]['selectedTab'] = tabs.length - 1;
+      settings['workspaces'][selectedWorkspaceId]['selectedTab'] = tabs.length;
       updateSettings(settings);
     }
     console.log("All paths:", tabs);

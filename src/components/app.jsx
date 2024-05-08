@@ -37,6 +37,7 @@ const App = ({ settings, updateSettings }) => {
   React.useEffect(() => {
     // Settings could change for a few reasons and resetting the workspace shouldn't always happen
     if (selectedWorkspaceId !== settings['lastWorkspace']) {
+      console.warn("IN USE EFFECT");
       const workspaceId = getValidWorkspace(settings, settings['lastWorkspace']);
       setSelectedWorkspaceId(workspaceId);
       if (settings['workspaces'][workspaceId]['tabs'] && settings['workspaces'][workspaceId]['tabs'].length > 0) {
@@ -44,6 +45,11 @@ const App = ({ settings, updateSettings }) => {
       } else {
         setTabs(getBlankTab());
       }
+    } else if (!(tabs.length === settings['workspaces'][selectedWorkspaceId]['tabs'].length &&
+      settings['workspaces'][selectedWorkspaceId]['tabs'].every(
+        (value, index) => value['tabSource'] === tabs[index]['tabSource']
+    ))) { 
+      setTabs(settings['workspaces'][selectedWorkspaceId]['tabs']);
     }
   }, [ settings ]);
 
@@ -65,18 +71,20 @@ const App = ({ settings, updateSettings }) => {
     console.log("Im handleFileSelected", node);
     const allPaths = tabs.map(n => n.tabSource);
     if (!allPaths.includes(node['path'])) {
+      const updatedTabs = tabs.filter((n) => n.tabSource);
       // TODO: Check that it's a .md or .txt?
-      tabs.push({
+      updatedTabs.push({
         tabLabel: node['base'],
         tabText: false,
         tabSource: node['path'],
         tabType: node['ext']
       });
-      settings['workspaces'][selectedWorkspaceId]['tabs'] = tabs.filter((n) => n.tabSource !== false);
-      settings['workspaces'][selectedWorkspaceId]['selectedTab'] = tabs.length;
+      console.log('updatedTabs', updatedTabs);
+      settings['workspaces'][selectedWorkspaceId]['tabs'] = updatedTabs;
+      // Set the selected tab to the one just opened
+      settings['workspaces'][selectedWorkspaceId]['selectedTab'] = updatedTabs.length - 1;
       updateSettings(settings);
     }
-    console.log("All paths:", tabs);
   }
 
   return (
@@ -95,7 +103,6 @@ const App = ({ settings, updateSettings }) => {
         settings={settings}
         updateSettings={updateSettings}
         selectedWorkspaceId={selectedWorkspaceId}
-        tabs={tabs}
         fileSelected={handleFileSelected} />
       <WorkspaceMain
         drawerOpen={drawerOpen}

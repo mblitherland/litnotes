@@ -39,8 +39,10 @@ const WorkspaceMain =  ({
 
   React.useEffect(() => {
     console.log("Selected workspace updated in WorkspaceMain");
-    setSelectedTab(settings['workspaces'][selectedWorkspaceId]['selectedTab'] || 0);
-  }, [ selectedWorkspaceId ] );
+    if (selectedTab !== settings['workspaces'][selectedWorkspaceId]['selectedTab']) {
+      setSelectedTab(settings['workspaces'][selectedWorkspaceId]['selectedTab'] || 0);
+    }
+  }, [ selectedWorkspaceId, settings ]);
 
   const [ selectedTab, setSelectedTab ] = React.useState(0);
 
@@ -52,7 +54,7 @@ const WorkspaceMain =  ({
   const tabSelected = (_event, newValue) => {
     // Set the selected index to the provided index
     setSelectedTab(parseInt(newValue));
-    settings['workspaces'][selectedWorkspaceId]['selectedTab'] = parseInt(newValue)
+    settings['workspaces'][selectedWorkspaceId]['selectedTab'] = parseInt(newValue);
     updateSettings(settings);
   };
 

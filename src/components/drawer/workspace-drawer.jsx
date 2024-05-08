@@ -34,7 +34,6 @@ const WorkspaceDrawer = ({
   settings,
   updateSettings,
   selectedWorkspaceId,
-  tabs,
   fileSelected,
   ...props
 }) => {

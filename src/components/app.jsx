@@ -85,6 +85,7 @@ const App = ({ settings, updateSettings }) => {
       settings['workspaces'][selectedWorkspaceId]['selectedTab'] = updatedTabs.length - 1;
       updateSettings(settings);
     }
+    // TODO: If the file is already open, set that one to the selected tab
   }
 
   return (

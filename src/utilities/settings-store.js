@@ -29,7 +29,7 @@ const Store = class Store {
 
   parseDataFile(filePath, defaults) {
     try {
-      let loaded = JSON.parse(fs.readFileSync(filePath));
+      var loaded = JSON.parse(fs.readFileSync(filePath));
       for (const [key, _] of Object.entries(this.defaults)) {
         if (!(key in loaded)) {
           loaded[key] = this.defaults[key];

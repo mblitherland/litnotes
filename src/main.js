@@ -6,6 +6,8 @@ import {
   generateUUID,
   getDirectory,
   getSettings,
+  loadFile,
+  saveFile,
   setSettings
 } from './utilities/main-ipc-helper.js';
 
@@ -49,13 +51,21 @@ const handleGetSettings = async () => {
   return getSettings(store);
 }
 
-const debounceSave = debounce(() => {
-  store.save();
-}, 3000);
+const handleLoadFile = (_event, filePath) => {
+  return loadFile(filePath);
+}
+
+const handleSaveFile = (_event, filePath, content) => {
+  saveFile(filePath, content);
+}
 
 const handleSetSettings = async (_event, settings) => {
   return setSettings(store, settings);
 }
+
+const debounceSave = debounce(() => {
+  store.save();
+}, 3000);
 
 const createWindow = () => {
   const { width, height } = store.get('windowBounds');

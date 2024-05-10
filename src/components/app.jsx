@@ -41,7 +41,10 @@ const App = ({ settings, updateSettings }) => {
       const workspaceId = getValidWorkspace(settings, settings['lastWorkspace']);
       setSelectedWorkspaceId(workspaceId);
       console.log("tabs", settings['workspaces'][workspaceId]);
-      if (settings['workspaces'][workspaceId]['tabs'] && settings['workspaces'][workspaceId]['tabs'].length > 0) {
+      if (settings['workspaces'][workspaceId] &&
+        settings['workspaces'][workspaceId]['tabs'] &&
+        settings['workspaces'][workspaceId]['tabs'].length > 0
+      ) {
         setTabs(settings['workspaces'][workspaceId]['tabs']);
       } else {
         setTabs(getBlankTab());

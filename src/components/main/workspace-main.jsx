@@ -37,14 +37,16 @@ const WorkspaceMain =  ({
   updateSettings
 }) => {
 
+  const [ selectedTab, setSelectedTab ] = React.useState(0);
+
   React.useEffect(() => {
     console.log("Selected workspace updated in WorkspaceMain");
-    if (selectedTab !== settings['workspaces'][selectedWorkspaceId]['selectedTab']) {
+    if (!settings['workspaces'][selectedWorkspaceId]) {
+      setSelectedTab(0);
+    } else if (selectedTab !== settings['workspaces'][selectedWorkspaceId]['selectedTab']) {
       setSelectedTab(settings['workspaces'][selectedWorkspaceId]['selectedTab'] || 0);
     }
   }, [ selectedWorkspaceId, settings ]);
-
-  const [ selectedTab, setSelectedTab ] = React.useState(0);
 
   const tabClosed = (index) => {
     // Remove tab, save list of tabs to the settings

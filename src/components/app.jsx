@@ -35,20 +35,23 @@ const App = ({ settings, updateSettings }) => {
   const [ tabs, setTabs ] = React.useState(getBlankTab());
 
   React.useEffect(() => {
-    // Settings could change for a few reasons and resetting the workspace shouldn't always happen
+    // Settings could change for a few reasons and resetting the workspace shouldn't always happen.
     if (selectedWorkspaceId !== settings['lastWorkspace']) {
       console.warn("IN USE EFFECT");
       const workspaceId = getValidWorkspace(settings, settings['lastWorkspace']);
       setSelectedWorkspaceId(workspaceId);
+      console.log("tabs", settings['workspaces'][workspaceId]);
       if (settings['workspaces'][workspaceId]['tabs'] && settings['workspaces'][workspaceId]['tabs'].length > 0) {
         setTabs(settings['workspaces'][workspaceId]['tabs']);
       } else {
         setTabs(getBlankTab());
       }
-    } else if (!(tabs.length === settings['workspaces'][selectedWorkspaceId]['tabs'].length &&
+    } else if (settings['workspaces'][selectedWorkspaceId]['tabs'] &&
+      !(tabs.length === settings['workspaces'][selectedWorkspaceId]['tabs'].length &&
       settings['workspaces'][selectedWorkspaceId]['tabs'].every(
         (value, index) => value['tabSource'] === tabs[index]['tabSource']
     ))) { 
+      // That's a bit tricky for boolean logic above. There could be unforseen issues with setting tabs.
       setTabs(settings['workspaces'][selectedWorkspaceId]['tabs']);
     }
   }, [ settings ]);

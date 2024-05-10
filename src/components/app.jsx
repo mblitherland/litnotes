@@ -20,6 +20,7 @@ const getBlankTab = () => {
     {
       tabLabel: "No files open",
       tabText: "Please select a file from your workspace.",
+      tabType: null,
       tabSource: false // This would be the file path
     }
   ]
@@ -34,7 +35,25 @@ const App = ({ settings, updateSettings }) => {
   const [ tabs, setTabs ] = React.useState(getBlankTab());
 
   React.useEffect(() => {
-    setSelectedWorkspaceId(getValidWorkspace(settings, settings['lastWorkspace']));
+    // Settings could change for a few reasons and resetting the workspace shouldn't always happen.
+    if (selectedWorkspaceId !== settings['lastWorkspace']) {
+      console.warn("IN USE EFFECT");
+      const workspaceId = getValidWorkspace(settings, settings['lastWorkspace']);
+      setSelectedWorkspaceId(workspaceId);
+      console.log("tabs", settings['workspaces'][workspaceId]);
+      if (settings['workspaces'][workspaceId]['tabs'] && settings['workspaces'][workspaceId]['tabs'].length > 0) {
+        setTabs(settings['workspaces'][workspaceId]['tabs']);
+      } else {
+        setTabs(getBlankTab());
+      }
+    } else if (settings['workspaces'][selectedWorkspaceId]['tabs'] &&
+      !(tabs.length === settings['workspaces'][selectedWorkspaceId]['tabs'].length &&
+      settings['workspaces'][selectedWorkspaceId]['tabs'].every(
+        (value, index) => value['tabSource'] === tabs[index]['tabSource']
+    ))) { 
+      // That's a bit tricky for boolean logic above. There could be unforseen issues with setting tabs.
+      setTabs(settings['workspaces'][selectedWorkspaceId]['tabs']);
+    }
   }, [ settings ]);
 
   const handleDrawerClose = () => {
@@ -45,13 +64,32 @@ const App = ({ settings, updateSettings }) => {
     setDrawerOpen(true);
   };
 
-  const handleTabsAdd = () => {
-
-  };
-
   const handleTabsRemove = (index) => {
-
+    console.log("In handleTabsRemove", index);
+    // TODO: If we've removed the last tab
+    // setTabs(getBlankTab());
   };
+
+  const handleFileSelected = (node) => {
+    console.log("Im handleFileSelected", node);
+    const allPaths = tabs.map(n => n.tabSource);
+    if (!allPaths.includes(node['path'])) {
+      const updatedTabs = tabs.filter((n) => n.tabSource);
+      // TODO: Check that it's a .md or .txt?
+      updatedTabs.push({
+        tabLabel: node['base'],
+        tabText: false,
+        tabSource: node['path'],
+        tabType: node['ext']
+      });
+      console.log('updatedTabs', updatedTabs);
+      settings['workspaces'][selectedWorkspaceId]['tabs'] = updatedTabs;
+      // Set the selected tab to the one just opened
+      settings['workspaces'][selectedWorkspaceId]['selectedTab'] = updatedTabs.length - 1;
+      updateSettings(settings);
+    }
+    // TODO: If the file is already open, set that one to the selected tab
+  }
 
   return (
     <Box
@@ -69,14 +107,15 @@ const App = ({ settings, updateSettings }) => {
         settings={settings}
         updateSettings={updateSettings}
         selectedWorkspaceId={selectedWorkspaceId}
-        tabs={tabs}
-        addTab={handleTabsAdd} />
+        fileSelected={handleFileSelected} />
       <WorkspaceMain
         drawerOpen={drawerOpen}
         drawerWidth={drawerWidth}
         selectedWorkspaceId={selectedWorkspaceId}
         tabs={tabs}
-        removeTab={handleTabsRemove} />
+        removeTab={handleTabsRemove}
+        settings={settings}
+        updateSettings={updateSettings} />
     </Box>
   );
 }

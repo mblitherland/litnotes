@@ -34,8 +34,7 @@ const WorkspaceDrawer = ({
   settings,
   updateSettings,
   selectedWorkspaceId,
-  tabs,
-  addTab,
+  fileSelected,
   ...props
 }) => {
   const theme = useTheme();
@@ -147,7 +146,7 @@ const WorkspaceDrawer = ({
             </Select>
           </FormControl>
           <ShowNoWorkspaceSelected />
-          <WorkspaceTree workspaceTree={workspaceTree} />
+          <WorkspaceTree workspaceTree={workspaceTree} fileSelected={fileSelected} />
         </Box>
       </Drawer>
       <Dialog

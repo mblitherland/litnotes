@@ -1,7 +1,7 @@
 {
   "name": "litnotes",
   "productName": "litnotes",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A desktop application for managing libraries of Markdown documents",
   "main": ".webpack/main",
   "scripts": {
@@ -35,7 +35,7 @@
     "name": "M Litherland",
     "email": "mlitherland@duck.com"
   },
-  "license": "MIT",
+  "license": "CC BY-NC-SA 4.0",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",

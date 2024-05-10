@@ -3,6 +3,16 @@ import { dialog } from 'electron';
 import fs from 'fs';
 import path from 'path';
 
+const loadFile = (filePath) => {
+  console.log("Loading file", filePath);
+  return fs.readFileSync(filePath);
+}
+
+const saveFile = (filePath, contents) => {
+  console.log("Saving file", filePath);
+  fs.writeFileSync(filePath, contents);
+}
+
 const browseDirectory = async (window) => {
   const result = { success: false };
   try {
@@ -78,10 +88,12 @@ const setSettings = (store, newSettings) => {
   return store.getAll();
 }
 
-export { 
+export {
   browseDirectory,
   generateUUID,
   getDirectory,
   getSettings,
+  loadFile,
+  saveFile,
   setSettings
 };

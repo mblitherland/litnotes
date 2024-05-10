@@ -8,5 +8,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   generateUUID: () => ipcRenderer.invoke('util:generateUUID'),
   getDirectory: (workspaceDir) => ipcRenderer.invoke('file:getDirectory', workspaceDir),
   getSettings: () => ipcRenderer.invoke('store:getSettings'),
+  loadFile: (filePath) => ipcRenderer.invoke('file:loadFile', filePath),
+  saveFile: (filePath, content) => ipcRenderer.invoke('file:saveFile', filePath, content),
   setSettings: (settings) => ipcRenderer.invoke('store:setSettings', settings)
 });

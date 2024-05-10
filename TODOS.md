@@ -30,6 +30,7 @@ A list of all the things to do for Litnotes
 - itemIds in the tree view being common between different trees leads to odd behavior.
     - probably just use the relative path + name for the id. I don't know there's a restriction on the string used
 - If you remove a workspace that's being worked on it should probably clear the drawer and main.
+- The linkDialogPlugin for MDX opens in the WRONG spot.
 
 ## Future things to consider
 

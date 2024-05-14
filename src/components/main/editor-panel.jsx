@@ -40,6 +40,35 @@ const EditorToolbar = () => {
 const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
 
   const editorRef = React.useRef(null);
+  const [ content, setContent ] = React.useState({ state: 'new', body: '# Content loading\n\nPlease wait...'});
+
+  React.useEffect(() => {
+    console.warn("useEffect...", tabSource);
+    if (tabSource) {
+      console.log("useEffect in tabSource", tabsource);
+      const fileData = window.electronAPI.loadFile(tabSource);
+      setContent({ state: 'loaded', body: fileData });
+    }
+  }, [ tabSource ]);
+
+  React.useEffect(() => {
+    console.log("content.body", content.body);
+    editorRef.current.setMarkdown(content.body);
+  }, [ content ]);
+
+  const handleOnBlur = (_event, _value) => {
+    // console.log("On Blur", _event, _value);
+    // TODO: possibly save immediately? (cancel debounce)
+  }
+
+  const handleOnChange = (_event, _value) => {
+    // TODO: possibly debounce to save?
+  }
+
+  const handleOnFocus = (_event, _value) => {
+    // This doesn't evern seem to be called...
+    console.log("On Focus", _event, _value);
+  }
 
   return (
     <div
@@ -48,7 +77,7 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
       { index === visible && tabType === ".md" && (
         <Box>
           <MDXEditor
-            markdown={'# Hello Litnotes'}
+            markdown={content.body}
             plugins={[
               headingsPlugin(),
               listsPlugin(),
@@ -58,12 +87,10 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
               linkDialogPlugin(),
               toolbarPlugin({ toolbarContents: EditorToolbar })
             ]}
+            onBlur={handleOnBlur}
+            onChange={handleOnChange}
+            onFocus={handleOnFocus}
             ref={editorRef} />
-
-          {
-            tabSource && <Typography>This will be an MDX panel containing {tabSource}</Typography>
-          }
-
         </Box>
       )}
       { index === visible && tabType !== ".md" && (

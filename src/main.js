@@ -52,6 +52,7 @@ const handleGetSettings = async () => {
 }
 
 const handleLoadFile = (_event, filePath) => {
+  console.log("load file", _event, filePath);
   return loadFile(filePath);
 }
 
@@ -110,6 +111,8 @@ app.on('ready', () => {
   ipcMain.handle('file:browseDirectory', handleBrowseDirectory);
   ipcMain.handle('util:generateUUID', generateUUID);
   ipcMain.handle('file:getDirectory', handleGetDirectory);
+  ipcMain.handle('file:loadFile', handleLoadFile);
+  ipcMain.handle('file:saveFile', handleSaveFile);
   ipcMain.handle('store:getSettings', handleGetSettings);
   ipcMain.handle('store:setSettings', handleSetSettings);
   mainWindow = createWindow();

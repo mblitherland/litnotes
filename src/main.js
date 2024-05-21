@@ -52,7 +52,6 @@ const handleGetSettings = async () => {
 }
 
 const handleLoadFile = (_event, filePath) => {
-  console.log("load file", _event, filePath);
   return loadFile(filePath);
 }
 

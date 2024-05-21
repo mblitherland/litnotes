@@ -8,13 +8,18 @@ import {
   thematicBreakPlugin,
   markdownShortcutPlugin,
   toolbarPlugin,
-  linkDialogPlugin
+  linkDialogPlugin,
+  codeBlockPlugin,
+  tablePlugin,
+  codeMirrorPlugin
 } from '@mdxeditor/editor';
 import {
   UndoRedo,
   BoldItalicUnderlineToggles,
   CreateLink,
   Button,
+  InsertCodeBlock,
+  InsertTable,
   Separator
 } from '@mdxeditor/editor';
 import Box from '@mui/material/Box';
@@ -26,6 +31,8 @@ const EditorToolbar = () => {
       <UndoRedo />
       <BoldItalicUnderlineToggles />
       <CreateLink />
+      <InsertCodeBlock />
+      <InsertTable />
       <Separator />
       <Button>
         <Typography>Save</Typography>
@@ -43,17 +50,22 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
   const [ content, setContent ] = React.useState({ state: 'new', body: '# Content loading\n\nPlease wait...'});
 
   React.useEffect(() => {
-    console.warn("useEffect...", tabSource);
+    const getFile = async () => {
+      const fileBuffer = await window.electronAPI.loadFile(tabSource);
+      const fileText = new TextDecoder().decode(fileBuffer);
+      setContent({ state: 'loaded', body: fileText });
+    };
+
     if (tabSource) {
-      console.log("useEffect in tabSource", tabsource);
-      const fileData = window.electronAPI.loadFile(tabSource);
-      setContent({ state: 'loaded', body: fileData });
+      getFile();
     }
   }, [ tabSource ]);
 
   React.useEffect(() => {
-    console.log("content.body", content.body);
-    editorRef.current.setMarkdown(content.body);
+    if (editorRef.current) {
+      console.log("Setting content", content.body.length);
+      editorRef.current.setMarkdown(content.body);
+    }
   }, [ content ]);
 
   const handleOnBlur = (_event, _value) => {
@@ -67,7 +79,7 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
 
   const handleOnFocus = (_event, _value) => {
     // This doesn't evern seem to be called...
-    console.log("On Focus", _event, _value);
+    // console.log("On Focus", _event, _value);
   }
 
   return (
@@ -85,6 +97,9 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
               thematicBreakPlugin(),
               markdownShortcutPlugin(),
               linkDialogPlugin(),
+              codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
+              tablePlugin(),
+              codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', rb: 'Ruby' }}),
               toolbarPlugin({ toolbarContents: EditorToolbar })
             ]}
             onBlur={handleOnBlur}

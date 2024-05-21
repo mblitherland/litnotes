@@ -37,10 +37,8 @@ const App = ({ settings, updateSettings }) => {
   React.useEffect(() => {
     // Settings could change for a few reasons and resetting the workspace shouldn't always happen.
     if (selectedWorkspaceId !== settings['lastWorkspace']) {
-      console.warn("IN USE EFFECT");
       const workspaceId = getValidWorkspace(settings, settings['lastWorkspace']);
       setSelectedWorkspaceId(workspaceId);
-      console.log("tabs", settings['workspaces'][workspaceId]);
       if (settings['workspaces'][workspaceId] &&
         settings['workspaces'][workspaceId]['tabs'] &&
         settings['workspaces'][workspaceId]['tabs'].length > 0
@@ -49,7 +47,8 @@ const App = ({ settings, updateSettings }) => {
       } else {
         setTabs(getBlankTab());
       }
-    } else if (settings['workspaces'][selectedWorkspaceId]['tabs'] &&
+    } else if (settings['workspaces'][selectedWorkspaceId] &&
+      settings['workspaces'][selectedWorkspaceId]['tabs'] &&
       !(tabs.length === settings['workspaces'][selectedWorkspaceId]['tabs'].length &&
       settings['workspaces'][selectedWorkspaceId]['tabs'].every(
         (value, index) => value['tabSource'] === tabs[index]['tabSource']
@@ -74,7 +73,6 @@ const App = ({ settings, updateSettings }) => {
   };
 
   const handleFileSelected = (node) => {
-    console.log("Im handleFileSelected", node);
     const allPaths = tabs.map(n => n.tabSource);
     if (!allPaths.includes(node['path'])) {
       const updatedTabs = tabs.filter((n) => n.tabSource);
@@ -85,7 +83,6 @@ const App = ({ settings, updateSettings }) => {
         tabSource: node['path'],
         tabType: node['ext']
       });
-      console.log('updatedTabs', updatedTabs);
       settings['workspaces'][selectedWorkspaceId]['tabs'] = updatedTabs;
       // Set the selected tab to the one just opened
       settings['workspaces'][selectedWorkspaceId]['selectedTab'] = updatedTabs.length - 1;

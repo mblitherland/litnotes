@@ -31,8 +31,10 @@ A list of all the things to do for Litnotes
 - itemIds in the tree view being common between different trees leads to odd behavior.
     - probably just use the relative path + name for the id. I don't know there's a restriction on the string used
 - If you remove a workspace that's being worked on it should probably clear the drawer and main.
-- The linkDialogPlugin for MDX opens in the WRONG spot.
-- Darkmode is _bad_ in MDX.
+- The linkDialogPlugin for MDX opens in the wrong spot.
+- Darkmode is _bad_ in MDX. (there's a section on themeing on the MDX website)
+- When you open a workspace and a file is gone it throws an uncaught runtime (NOENT)
+    - it leaves up the "content loading" page, which isn't the worst
 
 ## Future things to consider
 

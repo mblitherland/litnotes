@@ -57,7 +57,7 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
     };
 
     if (tabSource) {
-      getFile();
+      getFile(); // TODO: uncaught exception when file doesn't exist (open tab and file removed)
     }
   }, [ tabSource ]);
 

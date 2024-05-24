@@ -25,29 +25,10 @@ import {
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const EditorToolbar = () => {
-  return (
-    <>
-      <UndoRedo />
-      <BoldItalicUnderlineToggles />
-      <CreateLink />
-      <InsertCodeBlock />
-      <InsertTable />
-      <Separator />
-      <Button>
-        <Typography>Save</Typography>
-      </Button>
-      <Button>
-        <Typography>Close</Typography>
-      </Button>
-    </>
-  );
-}
-
 const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
 
   const editorRef = React.useRef(null);
-  const [ content, setContent ] = React.useState({ state: 'new', body: '# Content loading\n\nPlease wait...'});
+  const [content, setContent] = React.useState({ state: 'new', body: '# Content loading\n\nPlease wait...' });
 
   React.useEffect(() => {
     const getFile = async () => {
@@ -59,14 +40,14 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
     if (tabSource) {
       getFile(); // TODO: uncaught exception when file doesn't exist (open tab and file removed)
     }
-  }, [ tabSource ]);
+  }, [tabSource]);
 
   React.useEffect(() => {
     if (editorRef.current) {
       console.log("Setting content", content.body.length);
       editorRef.current.setMarkdown(content.body);
     }
-  }, [ content ]);
+  }, [content]);
 
   const handleOnBlur = (_event, _value) => {
     // console.log("On Blur", _event, _value);
@@ -82,11 +63,38 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
     // console.log("On Focus", _event, _value);
   }
 
+  const handleSave = (index) => {
+    console.log("handleSave", index);
+  }
+
+  const handleClose = (index) => {
+    console.log("handleClose", index);
+  }
+
+  const EditorToolbar = () => {
+    return (
+      <>
+        <UndoRedo />
+        <BoldItalicUnderlineToggles />
+        <CreateLink />
+        <InsertCodeBlock />
+        <InsertTable />
+        <Separator />
+        <Button onClick={() => { handleSave(index) }}>
+          <Typography>Save</Typography>
+        </Button>
+        <Button onClick={() => { handleClose(index) }}>
+          <Typography>Close</Typography>
+        </Button>
+      </>
+    );
+  }
+
   return (
     <div
       hidden={index !== visible}
     >
-      { index === visible && tabType === ".md" && (
+      {index === visible && tabType === ".md" && (
         <Box>
           <MDXEditor
             markdown={content.body}
@@ -99,21 +107,23 @@ const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
               linkDialogPlugin(),
               codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
               tablePlugin(),
-              codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', rb: 'Ruby' }}),
+              codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', rb: 'Ruby' } }),
               toolbarPlugin({ toolbarContents: EditorToolbar })
             ]}
             onBlur={handleOnBlur}
             onChange={handleOnChange}
             onFocus={handleOnFocus}
+            handleSave={handleSave}
+            handleClose={handleClose}
             ref={editorRef} />
         </Box>
       )}
-      { index === visible && tabType !== ".md" && (
+      {index === visible && tabType !== ".md" && (
         <Box sx={{ padding: 2 }}>
-          { tabType === null && (
+          {tabType === null && (
             <Typography>{tabText}</Typography>
           )}
-          { tabType !== null && (
+          {tabType !== null && (
             <Typography>Cowardly refusing to handle a file that's not apparently Markdown.</Typography>
           )}
         </Box>

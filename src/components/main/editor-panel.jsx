@@ -25,16 +25,27 @@ import {
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-const EditorPanel = ({ index, tabText, tabSource, tabType, visible }) => {
+const EditorPanel = ({
+  index,
+  tabText,
+  tabSource,
+  tabType,
+  visible,
+  addAlert
+}) => {
 
   const editorRef = React.useRef(null);
   const [content, setContent] = React.useState({ state: 'new', body: '# Content loading\n\nPlease wait...' });
 
   React.useEffect(() => {
     const getFile = async () => {
-      const fileBuffer = await window.electronAPI.loadFile(tabSource);
-      const fileText = new TextDecoder().decode(fileBuffer);
-      setContent({ state: 'loaded', body: fileText });
+      try {
+        const fileBuffer = await window.electronAPI.loadFile(tabSource);
+        const fileText = new TextDecoder().decode(fileBuffer);
+        setContent({ state: 'loaded', body: fileText });
+      } catch (e) {
+        addAlert("Could not open file '"+tabSource+"'");
+      }
     };
 
     if (tabSource) {

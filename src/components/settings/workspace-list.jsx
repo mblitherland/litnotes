@@ -21,7 +21,7 @@ const WorkspaceList = ({ workspaces, handleDeleteWorkspace }) => {
               <ListItemText
                 primary={workspace.name}
                 secondary={workspace.directory}
-                sx={{ flex: 1 }}/>
+                sx={{ flex: 1 }} />
               <Button
                 id="settings-delete-workspace"
                 component="label"

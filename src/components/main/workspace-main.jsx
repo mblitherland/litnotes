@@ -1,7 +1,12 @@
 import React from 'react';
 
 import { styled } from '@mui/material';
+import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import Snackbar from '@mui/material/Snackbar';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 
@@ -37,7 +42,9 @@ const WorkspaceMain =  ({
   updateSettings
 }) => {
 
+  const [ alerts, setAlerts ] = React.useState([]);
   const [ selectedTab, setSelectedTab ] = React.useState(0);
+  const [ showAlert, setShowAlert ] = React.useState(false);
 
   React.useEffect(() => {
     console.log("Selected workspace updated in WorkspaceMain");
@@ -47,6 +54,16 @@ const WorkspaceMain =  ({
       setSelectedTab(settings['workspaces'][selectedWorkspaceId]['selectedTab'] || 0);
     }
   }, [ selectedWorkspaceId, settings ]);
+
+  const addAlert = (alert) => {
+    setAlerts([...alerts, alert]);
+    setShowAlert(true);
+  }
+
+  const handleCloseAlert = () => {
+    setAlerts([]);
+    setShowAlert(false);
+  }
 
   const tabClosed = (index) => {
     // Remove tab, save list of tabs to the settings
@@ -67,6 +84,30 @@ const WorkspaceMain =  ({
         drawerWidth={drawerWidth}
       >
         <DrawerHeader />
+        <Snackbar
+          open={showAlert}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          onClose={handleCloseAlert}
+        >
+          <Alert
+            onClose={handleCloseAlert}
+            severity="error"
+            varient="filled"
+            sx={{ width: '100%' }}
+          >
+            <List>
+              {
+                Object.entries(alerts).map(([id, alert]) => (
+                  <ListItem key={id}>
+                    <ListItemText
+                      primary={alert}
+                      sx={{ flex: 1 }} />
+                  </ListItem>
+                ))
+              }
+            </List>
+          </Alert>
+        </Snackbar>
         <Box sx={{ width: "100%" }}>
           <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
             <Tabs
@@ -92,7 +133,8 @@ const WorkspaceMain =  ({
                 tabText={value['tabText']}
                 tabSource={value['tabSource']}
                 tabType={value['tabType']}
-                visible={selectedTab} />
+                visible={selectedTab}
+                addAlert={addAlert} />
             ))
           }
         </Box>

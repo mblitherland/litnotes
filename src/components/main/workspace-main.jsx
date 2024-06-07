@@ -65,11 +65,6 @@ const WorkspaceMain =  ({
     setShowAlert(false);
   }
 
-  const tabClosed = (index) => {
-    // Remove tab, save list of tabs to the settings
-    // call removeTab
-  };
-
   const tabSelected = (_event, newValue) => {
     // Set the selected index to the provided index
     setSelectedTab(parseInt(newValue));
@@ -134,7 +129,8 @@ const WorkspaceMain =  ({
                 tabSource={value['tabSource']}
                 tabType={value['tabType']}
                 visible={selectedTab}
-                addAlert={addAlert} />
+                addAlert={addAlert}
+                removeTab={removeTab} />
             ))
           }
         </Box>

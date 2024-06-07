@@ -15,7 +15,6 @@ A list of all the things to do for Litnotes
     - Directory list might be a bit funky for empty directories
     - Icons for the workspace tree
 5) 2024-04-24 Time to think about the editor space
-    - Use tabbed interface
     - File name (and workspace?) in header with save status
     - Save on lengthy debounce
     - Save on tab switch and close and window close
@@ -33,8 +32,9 @@ A list of all the things to do for Litnotes
 - If you remove a workspace that's being worked on it should probably clear the drawer and main.
 - The linkDialogPlugin for MDX opens in the wrong spot.
 - Darkmode is _bad_ in MDX. (there's a section on themeing on the MDX website)
-- When you open a workspace and a file is gone it throws an uncaught runtime (NOENT)
-    - it leaves up the "content loading" page, which isn't the worst
+- If a workspace is on the list but the folder's been deleted (moved, etc.) then you'll get an uncaught exception
+    - workspace-drawer:76
+- In general if there's a problem with the editor (doesn't display content) there's no where that I can see were the error, exception, etc. is displayed. Highly funky.
 
 ## Future things to consider
 
@@ -80,6 +80,10 @@ Working on large swaths of very basic functionality. Leaving lots of fun bugs to
 3) 2024-04-07 Setting within the running app ponderings
     - Hoisting settings piecemeal is kind of a pain in the butt
     - I feel like a settings singleton with convenience methods is a smart thing, but it's not the "react way" tm. (Tried to do it the "react way" tm.)
+5) 2024-04-24 Time to think about the editor space
+    - Use tabbed interface
 
 99) Misc bugs
 - When you delete a workspace form the settings page it's really deleted, but doesn't leave the list until some other setting changes. I haven't figured a way to get this to work properly, even with a `useEffect`.
+- When you open a workspace and a file is gone it throws an uncaught runtime (NOENT)
+    - it leaves up the "content loading" page, which isn't the worst

@@ -41,6 +41,7 @@ at handleLoadWorkspace (webpack-internal:///./src/components/drawer/workspace-dr
 - When you open a workspace and a file is gone it throws an uncaught runtime (NOENT)
   - it leaves up the "content loading" page, which isn't the worst
 
+
 ## Future things to consider
 
 - Implement content security: https://www.electronjs.org/docs/latest/tutorial/security#1-only-load-secure-content

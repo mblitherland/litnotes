@@ -45,7 +45,7 @@ const EditorPanel = ({
         const fileText = new TextDecoder().decode(fileBuffer);
         setContent({ state: 'loaded', body: fileText });
       } catch (e) {
-        addAlert("Could not open file '"+tabSource+"'");
+        addAlert("Could not open file '" + tabSource + "'");
       }
     };
 
@@ -71,12 +71,20 @@ const EditorPanel = ({
   }
 
   const handleOnFocus = (_event, _value) => {
-    // This doesn't evern seem to be called...
+    // This doesn't ever seem to be called...
     // console.log("On Focus", _event, _value);
   }
 
-  const handleSave = (index) => {
-    console.log("handleSave", index);
+  const handleSave = async () => {
+    console.log("in handle save", index);
+    try {
+      if (editorRef.current) {
+        const tabContent = editorRef.current.getMarkdown();
+        await window.electronAPI.saveFile(tabSource, tabContent);
+      }
+    } catch (_) {
+      console.error("caught exception", _);
+    }
   }
 
   const handleClose = (index) => {
@@ -93,7 +101,7 @@ const EditorPanel = ({
         <InsertCodeBlock />
         <InsertTable />
         <Separator />
-        <Button onClick={() => { handleSave(index) }}>
+        <Button onClick={handleSave}>
           <Typography>Save</Typography>
         </Button>
         <Button onClick={() => { handleClose(index) }}>

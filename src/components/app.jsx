@@ -53,7 +53,7 @@ const App = ({ settings, updateSettings }) => {
       settings['workspaces'][selectedWorkspaceId]['tabs'].every(
         (value, index) => value['tabSource'] === tabs[index]['tabSource']
     ))) { 
-      // That's a bit tricky for boolean logic above. There could be unforseen issues with setting tabs.
+      // That's a bit tricky for boolean logic above. There could be unforeseen issues with setting tabs.
       setTabs(settings['workspaces'][selectedWorkspaceId]['tabs']);
     }
   }, [ settings ]);

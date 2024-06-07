@@ -31,7 +31,8 @@ const EditorPanel = ({
   tabSource,
   tabType,
   visible,
-  addAlert
+  addAlert,
+  removeTab
 }) => {
 
   const editorRef = React.useRef(null);
@@ -49,7 +50,7 @@ const EditorPanel = ({
     };
 
     if (tabSource) {
-      getFile(); // TODO: uncaught exception when file doesn't exist (open tab and file removed)
+      getFile();
     }
   }, [tabSource]);
 
@@ -79,7 +80,8 @@ const EditorPanel = ({
   }
 
   const handleClose = (index) => {
-    console.log("handleClose", index);
+    // TODO: save before removing
+    removeTab(index);
   }
 
   const EditorToolbar = () => {

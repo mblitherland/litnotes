@@ -67,14 +67,28 @@ const App = ({ settings, updateSettings }) => {
   };
 
   const handleTabsRemove = (index) => {
-    console.log("In handleTabsRemove", index);
-    // TODO: If we've removed the last tab
-    // setTabs(getBlankTab());
+    var updatedTabs = [];
+
+    if (index > -1) {
+      updatedTabs = tabs.filter((_, i) => i !== index);
+    }
+    if (updatedTabs.length === 0) {
+      updatedTabs = getBlankTab();
+    }
+  
+    const updatedIndex = (index > 0) ? index - 1 : 0;
+
+    settings['workspaces'][selectedWorkspaceId]['tabs'] = updatedTabs;
+    settings['workspaces'][selectedWorkspaceId]['selectedTab'] = updatedIndex;
+    updateSettings(settings);
   };
 
   const handleFileSelected = (node) => {
     const allPaths = tabs.map(n => n.tabSource);
-    if (!allPaths.includes(node['path'])) {
+
+    if (allPaths.includes(node['path'])) {
+      settings['workspaces'][selectedWorkspaceId]['selectedTab'] = allPaths.indexOf(node['path']);
+    } else {
       const updatedTabs = tabs.filter((n) => n.tabSource);
       // TODO: Check that it's a .md or .txt?
       updatedTabs.push({
@@ -86,9 +100,8 @@ const App = ({ settings, updateSettings }) => {
       settings['workspaces'][selectedWorkspaceId]['tabs'] = updatedTabs;
       // Set the selected tab to the one just opened
       settings['workspaces'][selectedWorkspaceId]['selectedTab'] = updatedTabs.length - 1;
-      updateSettings(settings);
     }
-    // TODO: If the file is already open, set that one to the selected tab
+    updateSettings(settings);
   }
 
   return (

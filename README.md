@@ -2,6 +2,12 @@
 
 This is a simple, open-source editor for managing a collection of Markdown files.
 
+## Status
+
+*This is alpha software*
+
+Please be careful, there's a good chance it will delete your data. There's an ever better chance it won't work as you expect or in some cases at all. If you're not a developer I wouldn't even try to use this right now, honestly.
+
 ## Run and build instructions
 
 This project is built off of electron and react. You should be able to start it by cloning the repository and running `npm install` then `npm start`.

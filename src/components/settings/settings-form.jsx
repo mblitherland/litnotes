@@ -87,22 +87,6 @@ const SettingsForm = ({ settings, updateSettings }) => {
           Unable to select a directory.
         </Alert>
       </Snackbar>
-      <Divider textAlign="left" sx={{ mt: 2 }}>Appearance</Divider>
-      <Paper sx={{ m: 2, p: 2 }}>
-        <FormControl>
-          <InputLabel id="settings-select-theme-label">Theme</InputLabel>
-          <Select
-            labelId="settings-select-theme-label"
-            id="settings-select-theme"
-            value={themeName}
-            label="Theme"
-            onChange={handleThemeChange}
-          >
-            <MenuItem value="dark">Dark</MenuItem>
-            <MenuItem value="light">Light</MenuItem>
-          </Select>
-        </FormControl>
-      </Paper>
       <Divider textAlign="left">Add Workspace</Divider>
       <Paper sx={{ m: 2, p: 2 }}>
         <Stack spacing={2}>
@@ -155,6 +139,31 @@ const SettingsForm = ({ settings, updateSettings }) => {
       </Paper>
       <Divider textAlign="left">Existing Workspaces</Divider>
       <WorkspaceList workspaces={workspaces} handleDeleteWorkspace={handleDeleteWorkspace}/>
+      <Divider textAlign="left" sx={{ mt: 2 }}>Appearance</Divider>
+      <Paper sx={{ m: 2, p: 2 }}>
+        <FormControl>
+          <InputLabel id="settings-select-theme-label">Theme</InputLabel>
+          <Select
+            labelId="settings-select-theme-label"
+            id="settings-select-theme"
+            value={themeName}
+            label="Theme"
+            onChange={handleThemeChange}
+          >
+            <MenuItem value="dark">Dark</MenuItem>
+            <MenuItem value="light">Light</MenuItem>
+          </Select>
+        </FormControl>
+        <FormControl>
+
+        </FormControl>
+        <FormControl>
+
+        </FormControl>
+        <FormControl>
+
+        </FormControl>
+      </Paper>
     </>
   );
 };

@@ -16,14 +16,16 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-const store = new Store({
+const defaultConfig = {
   configName: 'user-settings',
   defaults: {
     themeName: 'light',
+    showDevConsole: false,
     lastWorkspace: '',
     drawer: {
       open: true,
-      width: 320
+      width: 320,
+      side: 'left'
     },
     windowBounds: {
       width: 1280,
@@ -35,7 +37,9 @@ const store = new Store({
     },
     workspaces: {}
   }
-});
+};
+
+const store = new Store(defaultConfig);
 
 var mainWindow;
 
@@ -70,6 +74,7 @@ const debounceSave = debounce(() => {
 const createWindow = () => {
   const { width, height } = store.get('windowBounds');
   const { winX, winY } = store.get('windowPosition');
+  const showDevConsole = store.get('showDevConsole');
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -98,8 +103,9 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  // TODO: This could be a config setting
-  mainWindow.webContents.openDevTools();
+  if (showDevConsole) {
+    mainWindow.webContents.openDevTools();
+  }
   return mainWindow;
 };
 

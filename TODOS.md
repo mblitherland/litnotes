@@ -21,6 +21,7 @@ A list of all the things to do for Litnotes. The todo list became pretty messy d
 
 ## Bugs
 
+- On longer notes the toolbar scrolls up and isn't accessible while editing.
 - It seems like the directory browse window only opens in front of the electron window the first time, but not after that. Maybe it's not being disposed of properly?
 - Some large workspaces can have errors loading that I don't understand.
   - `Error occurred in handler for 'file:getDirectory': TypeError: Cannot use 'in' operator to search for 'ensure.js' in undefined at populateChildren (/home/nule/Workspace/personal/litnotes/.webpack/main/index.js:935:20)`

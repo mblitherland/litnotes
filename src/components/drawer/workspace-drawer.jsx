@@ -105,7 +105,7 @@ const WorkspaceDrawer = ({
         }}
         variant="persistent"
         { ...props }
-        anchor="left"
+        anchor={(settings['drawer']['side'] === 'left') ? 'left' : 'right'}
         open={drawerOpen}
         onClose={onDrawerClose}
       >
@@ -119,7 +119,7 @@ const WorkspaceDrawer = ({
             </IconButton>
           </Box>
           <IconButton onClick={onDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeft /> : <ChevronRight />}
+            {(settings['drawer']['side'] === 'left') ? <ChevronLeft /> : <ChevronRight />}
           </IconButton>
         </DrawerHeader>
         <Divider />

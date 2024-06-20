@@ -141,7 +141,7 @@ const SettingsForm = ({ settings, updateSettings }) => {
       <WorkspaceList workspaces={workspaces} handleDeleteWorkspace={handleDeleteWorkspace}/>
       <Divider textAlign="left" sx={{ mt: 2 }}>Appearance</Divider>
       <Paper sx={{ m: 2, p: 2 }}>
-        <FormControl>
+        <FormControl sx={{ p: 1 }}>
           <InputLabel id="settings-select-theme-label">Theme</InputLabel>
           <Select
             labelId="settings-select-theme-label"
@@ -153,15 +153,37 @@ const SettingsForm = ({ settings, updateSettings }) => {
             <MenuItem value="dark">Dark</MenuItem>
             <MenuItem value="light">Light</MenuItem>
           </Select>
+          <FormHelperText>Dark mode currently broken</FormHelperText>
         </FormControl>
-        <FormControl>
-
+        <FormControl sx={{ p: 1, minWidth: "120px" }}>
+          <InputLabel id="settings-select-drawer-side-label">Drawer side</InputLabel>
+          <Select
+            labelId="settings-select-drawer-side-label"
+            id="settings-select-drawer-side"
+            value="left"
+            label="Show Dev Tools"
+            onChange={() => {}}
+          >
+            <MenuItem value="left">Left</MenuItem>
+            <MenuItem value="right">Right</MenuItem>
+          </Select>
         </FormControl>
-        <FormControl>
-
+        <FormControl sx={{ p: 1, minWidth: "120px" }}>
+          <InputLabel id="settings-select-drawer-width-label">Drawer width</InputLabel>
         </FormControl>
-        <FormControl>
-
+        <FormControl sx={{ p: 1, minWidth: "120px" }}>
+          <InputLabel id="settings-select-dev-tools-label">Show dev tools</InputLabel>
+          <Select
+            labelId="settings-select-dev-tools-label"
+            id="settings-select-dev-tools"
+            value="false"
+            label="Show Dev Tools"
+            onChange={() => {}}
+          >
+            <MenuItem value="true">True</MenuItem>
+            <MenuItem value="false">False</MenuItem>
+          </Select>
+          <FormHelperText>Requires a restart</FormHelperText>
         </FormControl>
       </Paper>
     </>
